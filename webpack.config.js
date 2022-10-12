@@ -4,12 +4,11 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const WebpackShellPluginNext = require('webpack-shell-plugin-next')
+const CopyPlugin = require('copy-webpack-plugin')
 const gameRoot = process.cwd()
 
 // the path(s) that should be cleaned
-const pathsToClean = [
-  'build'
-]
+const pathsToClean = ['build']
 
 // the clean options to use
 const cleanOptions = {
@@ -23,17 +22,13 @@ const config = {
   output: {
     path: `${gameRoot}/build`,
     filename: 'struktogramm.js'
-    // path: path.resolve(__dirname, "build"),
-    // publicPath: "${game_root}/build"
   },
   resolve: { symlinks: false },
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: ['/node_modules/',
-          '/build_tools/'
-        ],
+        exclude: ['/node_modules/', '/build_tools/'],
         use: {
           loader: 'babel-loader'
         }
@@ -44,11 +39,7 @@ const config = {
           MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
-            options: {
-              // modules: true,
-              // sourceMap: true,
-              // importLoaders: 1
-            }
+            options: {}
           },
           'sass-loader'
         ]
@@ -83,6 +74,12 @@ const config = {
         'msapplication-TileColor': '#2d89ef',
         'theme-color': '#ffffff'
       }
+    }),
+    new CopyPlugin({
+      patterns: [{ from: '*', to: './build/' }, './src/assets/examples/'],
+      options: {
+        concurrency: 100
+      }
     })
   ],
   devServer: {
@@ -96,7 +93,11 @@ const config = {
 }
 
 module.exports = (env, argv) => {
-  if (!argv || !argv.mode) { config.mode = 'development' }
-  if (!argv || !argv.mode || argv.mode === 'development') { config.devtool = 'source-map' }
+  if (!argv || !argv.mode) {
+    config.mode = 'development'
+  }
+  if (!argv || !argv.mode || argv.mode === 'development') {
+    config.devtool = 'source-map'
+  }
   return config
 }
