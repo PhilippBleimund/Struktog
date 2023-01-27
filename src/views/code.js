@@ -156,9 +156,9 @@ export class CodeView {
           post: ');\n'
         },
         FunctionNode: {
-          pre: 'def ',
+          pre: 'function ',
           between: '(',
-          post: '):\n'
+          post: ')\n'
         },
         CaseNode: {
           pre: 'switch (',
