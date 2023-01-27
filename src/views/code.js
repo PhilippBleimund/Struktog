@@ -229,6 +229,174 @@ export class CodeView {
         leftBracket: '{',
         rightBracket: '}',
         pseudoSwitch: false
+      },
+      'C#': {
+        untranslatable: [],
+        InputNode: {
+          pre: '',
+          post: ' = Console.ReadLine();\n'
+        },
+        OutputNode: {
+          pre: 'Console.WriteLine(',
+          post: ');\n'
+        },
+        TaskNode: {
+          pre: '',
+          post: ';\n'
+        },
+        BranchNode: {
+          pre: 'if (',
+          post: ')\n',
+          between: '} else {\n'
+        },
+        TryCatchNode: {
+          pre: 'try\n',
+          between: 'catch (',
+          post: ')\n'
+        },
+        CountLoopNode: {
+          pre: 'for (',
+          post: ')\n'
+        },
+        HeadLoopNode: {
+          pre: 'while (',
+          post: ')\n'
+        },
+        FootLoopNode: {
+          prepre: 'do\n',
+          pre: 'while (',
+          post: ');\n'
+        },
+        FunctionNode: {
+          pre: 'public void ',
+          between: '(',
+          post: ')\n'
+        },
+        CaseNode: {
+          pre: 'switch (',
+          post: ')\n'
+        },
+        InsertCase: {
+          preNormal: 'case ',
+          preDefault: 'default',
+          post: ':\n',
+          postpost: 'break;\n'
+        },
+        leftBracket: '{',
+        rightBracket: '}',
+        pseudoSwitch: false
+      },
+      'C++': {
+        untranslatable: [],
+        InputNode: {
+          pre: 'std::cin >> ',
+          post: ';\n'
+        },
+        OutputNode: {
+          pre: 'std::cout << ',
+          post: ';\n'
+        },
+        TaskNode: {
+          pre: '',
+          post: ';\n'
+        },
+        BranchNode: {
+          pre: 'if (',
+          post: ')\n',
+          between: '} else {\n'
+        },
+        TryCatchNode: {
+          pre: 'try\n',
+          between: 'catch (',
+          post: ')\n'
+        },
+        CountLoopNode: {
+          pre: 'for (',
+          post: ')\n'
+        },
+        HeadLoopNode: {
+          pre: 'while (',
+          post: ')\n'
+        },
+        FootLoopNode: {
+          prepre: 'do\n',
+          pre: 'while (',
+          post: ');\n'
+        },
+        FunctionNode: {
+          pre: 'void ',
+          between: '(',
+          post: ')\n'
+        },
+        CaseNode: {
+          pre: 'switch (',
+          post: ')\n'
+        },
+        InsertCase: {
+          preNormal: 'case ',
+          preDefault: 'default',
+          post: ':\n',
+          postpost: 'break;\n'
+        },
+        leftBracket: '{',
+        rightBracket: '}',
+        pseudoSwitch: false
+      },
+      C: {
+        untranslatable: ['TryCatchNode'],
+        InputNode: {
+          pre: 'scanf(',
+          post: ');\n'
+        },
+        OutputNode: {
+          pre: 'printf(',
+          post: ');\n'
+        },
+        TaskNode: {
+          pre: '',
+          post: ';\n'
+        },
+        BranchNode: {
+          pre: 'if (',
+          post: ')\n',
+          between: '} else {\n'
+        },
+        TryCatchNode: {
+          pre: '',
+          between: '',
+          post: ''
+        },
+        CountLoopNode: {
+          pre: 'for (',
+          post: ')\n'
+        },
+        HeadLoopNode: {
+          pre: 'while (',
+          post: ')\n'
+        },
+        FootLoopNode: {
+          prepre: 'do\n',
+          pre: 'while (',
+          post: ');\n'
+        },
+        FunctionNode: {
+          pre: 'void ',
+          between: '(',
+          post: ')\n'
+        },
+        CaseNode: {
+          pre: 'switch (',
+          post: ')\n'
+        },
+        InsertCase: {
+          preNormal: 'case ',
+          preDefault: 'default',
+          post: ':\n',
+          postpost: 'break;\n'
+        },
+        leftBracket: '{',
+        rightBracket: '}',
+        pseudoSwitch: false
       }
     }
 
