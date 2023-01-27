@@ -946,6 +946,12 @@ export class CodeView {
             } else {
               cases = cases.concat(this.transformToCode(subTree.defaultNode.followElement, indentLevel + 2, lang))
             }
+            if (!this.translationMap[lang].pseudoSwitch && (lang === 'C#' || lang === 'Java')) {
+              const endContent = document.createElement('span')
+              endContent.classList.add('keyword')
+              endContent.appendChild(document.createTextNode(this.addIndentations(indentLevel + 2) + this.translationMap[lang].InsertCase.postpost))
+              cases.push(endContent)
+            }
           }
           if (this.translationMap[lang].rightBracket !== '') {
             const rightBracket = document.createElement('span')
