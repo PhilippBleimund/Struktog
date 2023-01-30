@@ -1,16 +1,18 @@
 import { guidGenerator } from '../helpers/generator'
 
 class Model {
-  constructor (tree = {
-    id: guidGenerator(),
-    type: 'InsertNode',
-    followElement: { type: 'Placeholder' }
-  }) {
+  constructor (
+    tree = {
+      id: guidGenerator(),
+      type: 'InsertNode',
+      followElement: { type: 'Placeholder' }
+    }
+  ) {
     this.tree = tree
     this.presenter = null
 
     // check the web storage for old data
-    if (typeof (Storage) !== 'undefined') {
+    if (typeof Storage !== 'undefined') {
       if ('tree' in localStorage) {
         this.setTree(JSON.parse(localStorage.tree))
       }
@@ -38,14 +40,14 @@ class Model {
   }
 
   /**
-     * Find an element by id in the tree and use a function on that element
-     *
-     * @param    subTree         part of the tree with all children of current element
-     * @param    alterFunction   function to be executed on the found element
-     * @param    hasRealParent   indicates, if the parent element was a container node
-     * @param    text            the new text for the node
-     * @return   subTree         altered subTree object
-     */
+   * Find an element by id in the tree and use a function on that element
+   *
+   * @param    subTree         part of the tree with all children of current element
+   * @param    alterFunction   function to be executed on the found element
+   * @param    hasRealParent   indicates, if the parent element was a container node
+   * @param    text            the new text for the node
+   * @return   subTree         altered subTree object
+   */
   findAndAlterElement (uid, subTree, alterFunction, hasRealParent, text) {
     // end the recursion
     if (subTree === null || subTree.type === 'Placeholder') {
@@ -63,38 +65,103 @@ class Model {
       } else {
         switch (subTree.type) {
           case 'InsertNode':
-            subTree.followElement = this.findAndAlterElement(uid, subTree.followElement, alterFunction, hasRealParent, text)
+            subTree.followElement = this.findAndAlterElement(
+              uid,
+              subTree.followElement,
+              alterFunction,
+              hasRealParent,
+              text
+            )
             return subTree
 
           case 'InputNode':
           case 'OutputNode':
           case 'TaskNode':
-            subTree.followElement = this.findAndAlterElement(uid, subTree.followElement, alterFunction, true, text)
+            subTree.followElement = this.findAndAlterElement(
+              uid,
+              subTree.followElement,
+              alterFunction,
+              true,
+              text
+            )
             return subTree
 
           case 'HeadLoopNode':
           case 'FootLoopNode':
           case 'CountLoopNode':
           case 'FunctionNode':
-            subTree.child = this.findAndAlterElement(uid, subTree.child, alterFunction, false, text)
-            subTree.followElement = this.findAndAlterElement(uid, subTree.followElement, alterFunction, true, text)
+            subTree.child = this.findAndAlterElement(
+              uid,
+              subTree.child,
+              alterFunction,
+              false,
+              text
+            )
+            subTree.followElement = this.findAndAlterElement(
+              uid,
+              subTree.followElement,
+              alterFunction,
+              true,
+              text
+            )
             return subTree
 
           case 'BranchNode':
-            subTree.trueChild = this.findAndAlterElement(uid, subTree.trueChild, alterFunction, false, text)
-            subTree.falseChild = this.findAndAlterElement(uid, subTree.falseChild, alterFunction, false, text)
-            subTree.followElement = this.findAndAlterElement(uid, subTree.followElement, alterFunction, true, text)
+            subTree.trueChild = this.findAndAlterElement(
+              uid,
+              subTree.trueChild,
+              alterFunction,
+              false,
+              text
+            )
+            subTree.falseChild = this.findAndAlterElement(
+              uid,
+              subTree.falseChild,
+              alterFunction,
+              false,
+              text
+            )
+            subTree.followElement = this.findAndAlterElement(
+              uid,
+              subTree.followElement,
+              alterFunction,
+              true,
+              text
+            )
             return subTree
           case 'TryCatchNode':
-            subTree.tryChild = this.findAndAlterElement(uid, subTree.tryChild, alterFunction, false, text)
-            subTree.catchChild = this.findAndAlterElement(uid, subTree.catchChild, alterFunction, false, text)
-            subTree.followElement = this.findAndAlterElement(uid, subTree.followElement, alterFunction, true, text)
+            subTree.tryChild = this.findAndAlterElement(
+              uid,
+              subTree.tryChild,
+              alterFunction,
+              false,
+              text
+            )
+            subTree.catchChild = this.findAndAlterElement(
+              uid,
+              subTree.catchChild,
+              alterFunction,
+              false,
+              text
+            )
+            subTree.followElement = this.findAndAlterElement(
+              uid,
+              subTree.followElement,
+              alterFunction,
+              true,
+              text
+            )
             return subTree
-          case 'CaseNode':
-          {
+          case 'CaseNode': {
             const nodes = []
             for (const element of subTree.cases) {
-              const val = this.findAndAlterElement(uid, element, alterFunction, false, text)
+              const val = this.findAndAlterElement(
+                uid,
+                element,
+                alterFunction,
+                false,
+                text
+              )
               if (!(val === null)) {
                 nodes.push(val)
               }
@@ -102,18 +169,36 @@ class Model {
             if (nodes.length >= 2) {
               subTree.cases = nodes
             }
-            const valDefault = this.findAndAlterElement(uid, subTree.defaultNode, alterFunction, false, text)
+            const valDefault = this.findAndAlterElement(
+              uid,
+              subTree.defaultNode,
+              alterFunction,
+              false,
+              text
+            )
             if (valDefault === null) {
               subTree.defaultOn = false
             } else {
               subTree.defaultNode = valDefault
             }
 
-            subTree.followElement = this.findAndAlterElement(uid, subTree.followElement, alterFunction, true, text)
+            subTree.followElement = this.findAndAlterElement(
+              uid,
+              subTree.followElement,
+              alterFunction,
+              true,
+              text
+            )
             return subTree
           }
           case 'InsertCase':
-            subTree.followElement = this.findAndAlterElement(uid, subTree.followElement, alterFunction, hasRealParent, text)
+            subTree.followElement = this.findAndAlterElement(
+              uid,
+              subTree.followElement,
+              alterFunction,
+              hasRealParent,
+              text
+            )
             return subTree
         }
       }
@@ -121,13 +206,13 @@ class Model {
   }
 
   /**
-     * Remove the node and reconnect the follow element
-     *
-     * @param    subTree         part of the tree with all children of current element
-     * @param    hasRealParent   indicates if an Placeholder node has to be added
-     * @param    text            not used in this function
-     * @return   subTree         altered subTree object (without removed element)
-     */
+   * Remove the node and reconnect the follow element
+   *
+   * @param    subTree         part of the tree with all children of current element
+   * @param    hasRealParent   indicates if an Placeholder node has to be added
+   * @param    text            not used in this function
+   * @return   subTree         altered subTree object (without removed element)
+   */
   removeNode (subTree, hasRealParent, text) {
     // InsertCases are just completly removed, they do not have follow elements
     if (subTree.type === 'InsertCase') {
@@ -142,13 +227,13 @@ class Model {
   }
 
   /**
-     * Change the text of the current node
-     *
-     * @param    subTree         part of the tree with all children of current element
-     * @param    hasRealParent   not used in this function
-     * @param    text            the new text for the node
-     * @return   subTree         altered subTree object (with changed text)
-     */
+   * Change the text of the current node
+   *
+   * @param    subTree         part of the tree with all children of current element
+   * @param    hasRealParent   not used in this function
+   * @param    text            the new text for the node
+   * @return   subTree         altered subTree object (with changed text)
+   */
   editElement (subTree, hasRealParent, text) {
     // if subtree is a function node, update also the function parameters
     if (subTree.type === 'FunctionNode') {
@@ -179,17 +264,22 @@ class Model {
   }
 
   /**
-     * Insert an element in the model tree and connect children
-     *
-     * @param    subTree         part of the tree with all children of current element
-     * @param    hasRealParent   not used in this function
-     * @param    text            not used in this function
-     * @return   subTree         altered subTree object (with newly inserted element)
-     */
+   * Insert an element in the model tree and connect children
+   *
+   * @param    subTree         part of the tree with all children of current element
+   * @param    hasRealParent   not used in this function
+   * @param    text            not used in this function
+   * @return   subTree         altered subTree object (with newly inserted element)
+   */
   insertElement (subTree, hasRealParent, text) {
     const element = this.presenter.getNextInsertElement()
     // check for children
-    if (!(subTree.followElement === null || subTree.followElement.type === 'Placeholder')) {
+    if (
+      !(
+        subTree.followElement === null ||
+        subTree.followElement.type === 'Placeholder'
+      )
+    ) {
       // connect children with the element to insert
       element.followElement.followElement = subTree.followElement
     }
@@ -200,13 +290,13 @@ class Model {
   }
 
   /**
-     * Switch the display of the default case
-     *
-     * @param    subTree         part of the tree with all children of current element
-     * @param    hasRealParent   not used in this function
-     * @param    text            not used in this function
-     * @return   subTree         altered subTree object (with changed state of default case)
-     */
+   * Switch the display of the default case
+   *
+   * @param    subTree         part of the tree with all children of current element
+   * @param    hasRealParent   not used in this function
+   * @param    text            not used in this function
+   * @return   subTree         altered subTree object (with changed state of default case)
+   */
   switchDefaultCase (subTree, hasRealParent, text) {
     if (subTree.defaultOn) {
       subTree.defaultOn = false
@@ -217,13 +307,13 @@ class Model {
   }
 
   /**
-     * Insert a new empty case element
-     *
-     * @param    subTree         part of the tree with all children of current element
-     * @param    hasRealParent   not used in this function
-     * @param    text            not used in this function
-     * @return   subTree         altered subTree object (with inserted case element)
-     */
+   * Insert a new empty case element
+   *
+   * @param    subTree         part of the tree with all children of current element
+   * @param    hasRealParent   not used in this function
+   * @param    text            not used in this function
+   * @return   subTree         altered subTree object (with inserted case element)
+   */
   insertNewCase (subTree, hasRealParent, text) {
     // check for max number of cases, duo to rendering issues
     if (subTree.cases.length < 7) {
@@ -243,12 +333,12 @@ class Model {
   }
 
   /**
-     * Recursive function to get a real copy of an element by his id
-     *
-     * @param    id              id of the element, which to find
-     * @param    subTree         part of the tree with all children of current element
-     * @return   subTree         copy of the subTree object
-     */
+   * Recursive function to get a real copy of an element by his id
+   *
+   * @param    id              id of the element, which to find
+   * @param    subTree         part of the tree with all children of current element
+   * @return   subTree         copy of the subTree object
+   */
   getElementInTree (uid, subTree) {
     // stop recursion if the end of a sub tree is reached
     if (subTree === null || subTree.type === 'Placeholder') {
@@ -269,8 +359,7 @@ class Model {
           case 'HeadLoopNode':
           case 'CountLoopNode':
           case 'FootLoopNode':
-          case 'FunctionNode':
-          {
+          case 'FunctionNode': {
             // follow children first, then the follow node
             const node = this.getElementInTree(uid, subTree.child)
             if (node === null) {
@@ -280,8 +369,7 @@ class Model {
             }
           }
 
-          case 'BranchNode':
-          {
+          case 'BranchNode': {
             // follow both children first, then the follow node
             let node = this.getElementInTree(uid, subTree.trueChild)
             if (node === null) {
@@ -296,8 +384,7 @@ class Model {
             }
           }
 
-          case 'TryCatchNode':
-          {
+          case 'TryCatchNode': {
             // follow both children first, then the follow node
             let node = this.getElementInTree(uid, subTree.tryChild)
             if (node === null) {
@@ -312,8 +399,7 @@ class Model {
             }
           }
 
-          case 'CaseNode':
-          {
+          case 'CaseNode': {
             // follow every case first
             let node = null
             for (const element of subTree.cases) {
