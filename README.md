@@ -50,6 +50,7 @@ Aufgaben können über eine übergebene URL geladen werden. Der Server auf dem d
 Klaus Ramm,
 Thiemo Leonhardt,
 Tom-Maurice Schreiber
+Sören Schwab
 
 # Lizenz
 

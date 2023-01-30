@@ -2,6 +2,7 @@ v1.2.1
 
 - Bugfix
 - add C, C++ and C# to code section
+- tasks can be loaded from url
 
 v1.2.0
 
