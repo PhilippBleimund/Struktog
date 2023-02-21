@@ -1,6 +1,6 @@
 v1.2.1
 
-- Bugfix
+- Bugfix SVG Export Branch, Case and Function
 - add C, C++ and C# to code section
 - tasks can be loaded from url
 

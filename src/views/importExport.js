@@ -613,7 +613,9 @@ export class ImportExport {
     ctx.lineWidth = '1'
     // render the tree on the canvas
     const lastY = this.renderTreeAsCanvas(model, ctx, 0, width, 0)
-    ctx.rect(0, 0, width, lastY)
+    ctx.rect(0, 0, width, lastY + 1)
+    ctx.strokeStyle = 'black'
+    ctx.lineWidth = 1
     ctx.stroke()
 
     // define filename
