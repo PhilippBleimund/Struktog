@@ -56,11 +56,11 @@ export class Presenter {
   }
 
   /**
-     * Update the model stored in the browser store
-     */
+   * Update the model stored in the browser store
+   */
   updateBrowserStore () {
     // check if browser supports web storage
-    if (typeof (Storage) !== 'undefined') {
+    if (typeof Storage !== 'undefined') {
       // update the model as stringified JSON data
       localStorage.tree = JSON.stringify(this.model.getTree())
       localStorage.displaySourcecode = this.displaySourcecode
@@ -86,10 +86,10 @@ export class Presenter {
   }
 
   /**
-     * Start the tranformation of the model tree to sourcecode
-     *
-     * @param   lang   programming language to which the translation happens
-     */
+   * Start the tranformation of the model tree to sourcecode
+   *
+   * @param   lang   programming language to which the translation happens
+   */
   startTransforming (event) {
     for (const view of this.views) {
       view.setLang(event.target.value)
@@ -98,10 +98,10 @@ export class Presenter {
   }
 
   /**
-     * Toggle the rendering of sourcecode
-     *
-     * @param   buttonId   id of the sourcecode display button
-     */
+   * Toggle the rendering of sourcecode
+   *
+   * @param   buttonId   id of the sourcecode display button
+   */
   alterSourcecodeDisplay (buttonId) {
     if (this.displaySourcecode) {
       this.displaySourcecode = false
@@ -115,10 +115,10 @@ export class Presenter {
   }
 
   /**
-     * Prepare for inserting an element
-     *
-     * @param   buttonId   id of the selected button
-     */
+   * Prepare for inserting an element
+   *
+   * @param   buttonId   id of the selected button
+   */
   insertNode (id, event) {
     switch (id) {
       case 'InputButton':
@@ -200,26 +200,28 @@ export class Presenter {
               followElement: { type: 'Placeholder' }
             }
           },
-          cases: [{
-            id: guidGenerator(),
-            type: 'InsertCase',
-            text: 'Fall',
-            followElement: {
+          cases: [
+            {
               id: guidGenerator(),
-              type: 'InsertNode',
-              followElement: { type: 'Placeholder' }
-            }
-          },
-          {
-            id: guidGenerator(),
-            type: 'InsertCase',
-            text: 'Fall',
-            followElement: {
+              type: 'InsertCase',
+              text: 'Fall',
+              followElement: {
+                id: guidGenerator(),
+                type: 'InsertNode',
+                followElement: { type: 'Placeholder' }
+              }
+            },
+            {
               id: guidGenerator(),
-              type: 'InsertNode',
-              followElement: { type: 'Placeholder' }
+              type: 'InsertCase',
+              text: 'Fall',
+              followElement: {
+                id: guidGenerator(),
+                type: 'InsertNode',
+                followElement: { type: 'Placeholder' }
+              }
             }
-          }]
+          ]
         }
         break
       case 'CountLoopButton':
@@ -334,8 +336,8 @@ export class Presenter {
   }
 
   /**
-     * Helper function to correctly abort while using drag and drop
-     */
+   * Helper function to correctly abort while using drag and drop
+   */
   resetDrop () {
     // while drag and droping an inserting element, the user can drop everywhere
     // if the location is not valid, one step more must be done to abort everything
@@ -358,36 +360,52 @@ export class Presenter {
   }
 
   /**
-     * Switch the state of the default case
-     *
-     * @param   uid   id of the clicked element in the struktogramm
-     */
+   * Switch the state of the default case
+   *
+   * @param   uid   id of the clicked element in the struktogramm
+   */
   switchDefaultState (uid) {
     this.updateUndo()
-    this.model.setTree(this.model.findAndAlterElement(uid, this.model.getTree(), this.model.switchDefaultCase, false, ''))
+    this.model.setTree(
+      this.model.findAndAlterElement(
+        uid,
+        this.model.getTree(),
+        this.model.switchDefaultCase,
+        false,
+        ''
+      )
+    )
     this.checkUndo()
     this.updateBrowserStore()
     this.renderAllViews()
   }
 
   /**
-     * Add another new case
-     *
-     * @param   uid   id of the clicked element in the struktogramm
-     */
+   * Add another new case
+   *
+   * @param   uid   id of the clicked element in the struktogramm
+   */
   addCase (uid) {
     this.updateUndo()
-    this.model.setTree(this.model.findAndAlterElement(uid, this.model.getTree(), this.model.insertNewCase, false, ''))
+    this.model.setTree(
+      this.model.findAndAlterElement(
+        uid,
+        this.model.getTree(),
+        this.model.insertNewCase,
+        false,
+        ''
+      )
+    )
     this.checkUndo()
     this.updateBrowserStore()
     this.renderAllViews()
   }
 
   /**
-     * Remove the element from the tree
-     *
-     * @param   uid   id of the clicked element in the struktogramm
-     */
+   * Remove the element from the tree
+   *
+   * @param   uid   id of the clicked element in the struktogramm
+   */
   removeElement (uid) {
     const deleteElem = this.model.getElementInTree(uid, this.model.getTree())
     switch (deleteElem.type) {
@@ -407,28 +425,36 @@ export class Presenter {
         }
         break
       case 'BranchNode':
-        if (deleteElem.trueChild.followElement.type !== 'Placeholder' || deleteElem.falseChild.followElement.type !== 'Placeholder') {
+        if (
+          deleteElem.trueChild.followElement.type !== 'Placeholder' ||
+          deleteElem.falseChild.followElement.type !== 'Placeholder'
+        ) {
           this.prepareRemoveQuestion(uid)
         } else {
           this.removeNodeFromTree(uid)
         }
         break
       case 'TryCatchNode':
-        if (deleteElem.tryChild.followElement.type !== 'Placeholder' || deleteElem.catchChild.followElement.type !== 'Placeholder') {
+        if (
+          deleteElem.tryChild.followElement.type !== 'Placeholder' ||
+          deleteElem.catchChild.followElement.type !== 'Placeholder'
+        ) {
           this.prepareRemoveQuestion(uid)
         } else {
           this.removeNodeFromTree(uid)
         }
         break
-      case 'CaseNode':
-      {
+      case 'CaseNode': {
         let check = false
         for (const item of deleteElem.cases) {
           if (item.followElement.followElement.type !== 'Placeholder') {
             check = true
           }
         }
-        if (deleteElem.defaultNode.followElement.followElement.type !== 'Placeholder') {
+        if (
+          deleteElem.defaultNode.followElement.followElement.type !==
+          'Placeholder'
+        ) {
           check = true
         }
         if (check) {
@@ -457,14 +483,20 @@ export class Presenter {
     while (footer.hasChildNodes()) {
       footer.removeChild(footer.lastChild)
     }
-    content.appendChild(document.createTextNode('Dieses Element und alle darin erstellten Blöcke löschen?'))
+    content.appendChild(
+      document.createTextNode(
+        'Dieses Element und alle darin erstellten Blöcke löschen?'
+      )
+    )
     const doButton = document.createElement('div')
     doButton.classList.add('modal-buttons', 'acceptIcon', 'hand')
     doButton.addEventListener('click', () => this.removeNodeFromTree(uid, true))
     footer.appendChild(doButton)
     const cancelButton = document.createElement('div')
     cancelButton.classList.add('modal-buttons', 'deleteIcon', 'hand')
-    cancelButton.addEventListener('click', () => document.getElementById('IEModal').classList.remove('active'))
+    cancelButton.addEventListener('click', () =>
+      document.getElementById('IEModal').classList.remove('active')
+    )
     footer.appendChild(cancelButton)
 
     document.getElementById('IEModal').classList.add('active')
@@ -472,7 +504,15 @@ export class Presenter {
 
   removeNodeFromTree (uid, closeModal = false) {
     this.updateUndo()
-    this.model.setTree(this.model.findAndAlterElement(uid, this.model.getTree(), this.model.removeNode, false, ''))
+    this.model.setTree(
+      this.model.findAndAlterElement(
+        uid,
+        this.model.getTree(),
+        this.model.removeNode,
+        false,
+        ''
+      )
+    )
     this.checkUndo()
     this.updateBrowserStore()
     this.renderAllViews()
@@ -527,15 +567,18 @@ export class Presenter {
   }
 
   /**
-     * Prepare moving of an element of the struktogramm
-     *
-     * @param   uid   id of the clicked element in the struktogramm
-     */
+   * Prepare moving of an element of the struktogramm
+   *
+   * @param   uid   id of the clicked element in the struktogramm
+   */
   moveElement (uid) {
     // prepare data
     this.moveId = uid
     this.insertMode = true
-    this.nextInsertElement = this.model.getElementInTree(uid, this.model.getTree())
+    this.nextInsertElement = this.model.getElementInTree(
+      uid,
+      this.model.getTree()
+    )
     this.nextInsertElement.followElement.followElement = null
     // rerender
     this.renderAllViews()
@@ -544,27 +587,51 @@ export class Presenter {
   // textType: only used for the distinction of function name and function parameters
   editElement (uid, textValue, textType = '') {
     this.updateUndo()
-    this.model.setTree(this.model.findAndAlterElement(uid, this.model.getTree(), this.model.editElement, false, textType + textValue))
+    this.model.setTree(
+      this.model.findAndAlterElement(
+        uid,
+        this.model.getTree(),
+        this.model.editElement,
+        false,
+        textType + textValue
+      )
+    )
     this.checkUndo()
     this.updateBrowserStore()
     this.renderAllViews()
   }
 
   /**
-     * Append an element in the tree
-     *
-     * @param   uid   id of the clicked InsertNode in the struktogramm
-     */
+   * Append an element in the tree
+   *
+   * @param   uid   id of the clicked InsertNode in the struktogramm
+   */
   appendElement (uid) {
     this.updateUndo()
     // remove old node, when moving is used
     const moveState = this.moveId
     if (moveState) {
-      this.model.setTree(this.model.findAndAlterElement(this.moveId, this.model.getTree(), this.model.removeNode, false, ''))
+      this.model.setTree(
+        this.model.findAndAlterElement(
+          this.moveId,
+          this.model.getTree(),
+          this.model.removeNode,
+          false,
+          ''
+        )
+      )
     }
     // insert the new node, on moving, its the removed
     const elemId = this.nextInsertElement.id
-    this.model.setTree(this.model.findAndAlterElement(uid, this.model.getTree(), this.model.insertElement, false, ''))
+    this.model.setTree(
+      this.model.findAndAlterElement(
+        uid,
+        this.model.getTree(),
+        this.model.insertElement,
+        false,
+        ''
+      )
+    )
     // reset the buttons if moving occured
     if (moveState) {
       // TODO
@@ -577,17 +644,17 @@ export class Presenter {
     this.renderAllViews()
     // on new inserted elements start the editing mode of the element
     // start no editing mode for try catch blocks
-    if (!moveState && (this.getElementByUid(elemId).type !== 'TryCatchNode')) {
+    if (!moveState && this.getElementByUid(elemId).type !== 'TryCatchNode') {
       this.switchEditState(elemId)
     }
   }
 
   /**
-     * Switch an element in the struktogramm to the editing state
-     *
-     * @param   uid         id of the desired element in the struktogramm
-     * @param   paramIndex  index (position) of the function parameter
-     */
+   * Switch an element in the struktogramm to the editing state
+   *
+   * @param   uid         id of the desired element in the struktogramm
+   * @param   paramIndex  index (position) of the function parameter
+   */
   switchEditState (uid, paramIndex = null) {
     let elem = document.getElementById(uid)
 
@@ -599,7 +666,9 @@ export class Presenter {
         funcTextNode = elem.children[0].children[0].children[1].children[0]
         // trigger click event to show input field
       } else {
-        funcTextNode = elem.children[0].children[0].children[2].children[paramIndex].children[0]
+        funcTextNode =
+          elem.children[0].children[0].children[2].children[paramIndex]
+            .children[0]
       }
       if (funcTextNode) {
         funcTextNode.click()
@@ -616,7 +685,9 @@ export class Presenter {
       } else {
         // in try catch block the input field of the catch block has not to be the first input field (if the try block has child nodes)
         if (elem.children[0].classList.contains('tryCatchNode')) {
-          elem = elem.getElementsByClassName('tryCatchNode')[1].children[1].children[1]
+          elem =
+            elem.getElementsByClassName('tryCatchNode')[1].children[1]
+              .children[1]
         } else {
           elem = elem.getElementsByClassName('input-group editField')[0]
         }
@@ -634,9 +705,12 @@ export class Presenter {
 
   saveDialog () {
     // define the data url to start a download on click
-    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(this.getStringifiedTree())
+    const dataUri =
+      'data:application/json;charset=utf-8,' +
+      encodeURIComponent(this.getStringifiedTree())
     // create filename with current date in the name
-    const exportFileDefaultName = 'struktog_' + (new Date(Date.now()).toJSON()).substring(0, 10) + '.json'
+    const exportFileDefaultName =
+      'struktog_' + new Date(Date.now()).toJSON().substring(0, 10) + '.json'
     // generate the download button element and append it to the node
     const linkElement = document.createElement('a')
     linkElement.setAttribute('href', dataUri)
@@ -645,8 +719,8 @@ export class Presenter {
   }
 
   /**
-     * Read input from a JSON file and replace the current model
-     */
+   * Read input from a JSON file and replace the current model
+   */
   readFile (event) {
     // create a FileReader instance
     const reader = new FileReader()
@@ -658,18 +732,34 @@ export class Presenter {
       this.checkUndo()
       this.renderAllViews()
       this.updateBrowserStore()
+      console.log(event)
     }
     // start the reading process
     reader.readAsText(event.target.files[0])
   }
 
+  /**
+   * Read input from a JSON file and replace the current model
+   */
+  readUrl (file) {
+    this.updateUndo()
+    this.model.setTree(file)
+    this.checkUndo()
+    this.renderAllViews()
+    this.updateBrowserStore()
+  }
+
   updateUndo () {
     this.undoList.push(this.getStringifiedTree())
-    for (const item of document.getElementsByClassName('UndoIconButtonOverlay')) {
+    for (const item of document.getElementsByClassName(
+      'UndoIconButtonOverlay'
+    )) {
       item.classList.remove('disableIcon')
     }
     this.redoList = []
-    for (const item of document.getElementsByClassName('RedoIconButtonOverlay')) {
+    for (const item of document.getElementsByClassName(
+      'RedoIconButtonOverlay'
+    )) {
       item.classList.add('disableIcon')
     }
   }
@@ -680,11 +770,15 @@ export class Presenter {
       this.model.setTree(JSON.parse(this.undoList[this.undoList.length - 1]))
       this.undoList.pop()
       if (this.undoList === 0) {
-        for (const item of document.getElementsByClassName('UndoIconButtonOverlay')) {
+        for (const item of document.getElementsByClassName(
+          'UndoIconButtonOverlay'
+        )) {
           item.classList.add('disableIcon')
         }
       }
-      for (const item of document.getElementsByClassName('RedoIconButtonOverlay')) {
+      for (const item of document.getElementsByClassName(
+        'RedoIconButtonOverlay'
+      )) {
         item.classList.remove('disableIcon')
       }
       this.renderAllViews()
@@ -696,7 +790,9 @@ export class Presenter {
     if (this.undoList[this.undoList.length - 1] === this.getStringifiedTree()) {
       this.undoList.pop()
       if (this.undoList === 0) {
-        for (const item of document.getElementsByClassName('UndoIconButtonOverlay')) {
+        for (const item of document.getElementsByClassName(
+          'UndoIconButtonOverlay'
+        )) {
           item.classList.add('disableIcon')
         }
       }
@@ -709,11 +805,15 @@ export class Presenter {
       this.model.setTree(JSON.parse(this.redoList[0]))
       this.redoList.shift()
       if (this.redoList.length === 0) {
-        for (const item of document.getElementsByClassName('RedoIconButtonOverlay')) {
+        for (const item of document.getElementsByClassName(
+          'RedoIconButtonOverlay'
+        )) {
           item.classList.add('disableIcon')
         }
       }
-      for (const item of document.getElementsByClassName('UndoIconButtonOverlay')) {
+      for (const item of document.getElementsByClassName(
+        'UndoIconButtonOverlay'
+      )) {
         item.classList.remove('disableIcon')
       }
       this.renderAllViews()

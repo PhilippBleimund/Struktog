@@ -6,26 +6,21 @@ import { Structogram } from './views/structogram'
 import { CodeView } from './views/code'
 import { ImportExport } from './views/importExport'
 import { generateHtmltree, generateInfoButton } from './helpers/generator'
-import { templates } from './templates.js'
 
 import './assets/scss/structog.scss'
 
 window.onload = function () {
   // manipulate the localStorage before loading the presenter
-  if (typeof (Storage) !== 'undefined') {
+  if (typeof Storage !== 'undefined') {
     const url = new URL(window.location.href)
-    const template = url.searchParams.get('template')
-    if (template in templates) {
-      if ('model' in templates[template]) {
-        window.localStorage.tree = JSON.stringify(templates[template].model)
-        model.setTree(templates[template].model)
-      }
-      if ('lang' in templates[template]) {
-        window.localStorage.lang = templates[template].lang
-      }
-      if ('displaySourcecode' in templates[template]) {
-        window.localStorage.displaySourcecode = templates[template].displaySourcecode
-      }
+    const externJson = url.searchParams.get('url')
+    if (externJson !== null) {
+      fetch(externJson)
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(json)
+          presenter.readUrl(json)
+        })
     }
     const configId = url.searchParams.get('config')
     config.loadConfig(configId)
@@ -38,11 +33,17 @@ window.onload = function () {
   model.setPresenter(presenter)
 
   // create our view objects
-  const structogram = new Structogram(presenter, document.getElementById('editorDisplay'))
+  const structogram = new Structogram(
+    presenter,
+    document.getElementById('editorDisplay')
+  )
   presenter.addView(structogram)
   const code = new CodeView(presenter, document.getElementById('editorDisplay'))
   presenter.addView(code)
-  const importExport = new ImportExport(presenter, document.getElementById('Export'))
+  const importExport = new ImportExport(
+    presenter,
+    document.getElementById('Export')
+  )
   presenter.addView(importExport)
 
   generateInfoButton(document.getElementById('optionButtons'))
