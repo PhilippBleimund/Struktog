@@ -43,6 +43,7 @@ Aufgaben können über eine übergebene URL geladen werden. Der Server auf dem d
 # Download
 
 - [Last-Release](https://dditools.inf.tu-dresden.de/releases/struktog/struktog-v1.2.1.tar.gz)
+- [Last-Build](https://dditools.inf.tu-dresden.de/releases/struktog/struktog-latest.tar.gz)
 
 # Maintainer
 

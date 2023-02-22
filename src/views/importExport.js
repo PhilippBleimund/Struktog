@@ -552,9 +552,16 @@ export class ImportExport {
             return 2 + trueChild
           }
         }
+
+        case 'CountLoopNode':
         case 'HeadLoopNode':
         case 'FootLoopNode': {
-          return 1 + this.preCountTreeDepth(subTree.followElement)
+          console.log(subTree)
+          return (
+            1 +
+            this.preCountTreeDepth(subTree.child) +
+            this.preCountTreeDepth(subTree.followElement)
+          )
         }
 
         case 'CaseNode': {
@@ -572,7 +579,7 @@ export class ImportExport {
   }
 
   /**
-   * Count the TaskNodes in the current tree element
+   * Count the OneLineNodes in the current tree element
    *
    * @param    subTree   object of the current element / sub tree of the struktogramm
    * @return   int       depth of the current tree element
