@@ -7,7 +7,19 @@ export function guidGenerator () {
   const gen = function () {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
   }
-  return (gen() + gen() + '-' + gen() + '-' + gen() + '-' + gen() + '-' + gen() + gen())
+  return (
+    gen() +
+    gen() +
+    '-' +
+    gen() +
+    '-' +
+    gen() +
+    '-' +
+    gen() +
+    '-' +
+    gen() +
+    gen()
+  )
 }
 
 /**
@@ -121,14 +133,22 @@ export function generateHtmltree () {
   footer.appendChild(footerDiv)
 
   const footerSpan = document.createElement('span')
-  footerSpan.appendChild(document.createTextNode('v1.2 Didaktik der Informatik der TU Dresden'))
+  footerSpan.appendChild(
+    document.createTextNode('v1.2.1 Didaktik der Informatik der TU Dresden')
+  )
   footerDiv.appendChild(footerSpan)
 }
 
 export function generateResetButton (presenter, domNode) {
   // reset button must be last defined
   const resetButtonDiv = document.createElement('div')
-  resetButtonDiv.classList.add('struktoOption', 'resetIcon', 'tooltip', 'tooltip-bottom', 'hand')
+  resetButtonDiv.classList.add(
+    'struktoOption',
+    'resetIcon',
+    'tooltip',
+    'tooltip-bottom',
+    'hand'
+  )
   resetButtonDiv.setAttribute('data-tooltip', 'Reset')
   resetButtonDiv.addEventListener('click', () => {
     const content = document.getElementById('modal-content')
@@ -146,7 +166,9 @@ export function generateResetButton (presenter, domNode) {
     footer.appendChild(doButton)
     const cancelButton = document.createElement('div')
     cancelButton.classList.add('modal-buttons', 'deleteIcon', 'hand')
-    cancelButton.addEventListener('click', () => document.getElementById('IEModal').classList.remove('active'))
+    cancelButton.addEventListener('click', () =>
+      document.getElementById('IEModal').classList.remove('active')
+    )
     footer.appendChild(cancelButton)
 
     document.getElementById('IEModal').classList.add('active')
@@ -156,10 +178,19 @@ export function generateResetButton (presenter, domNode) {
 
 export function generateInfoButton (domNode) {
   const infoButtonDiv = document.createElement('div')
-  infoButtonDiv.classList.add('options-element', 'infoIcon', 'tooltip', 'tooltip-bottomInfo', 'hand')
+  infoButtonDiv.classList.add(
+    'options-element',
+    'infoIcon',
+    'tooltip',
+    'tooltip-bottomInfo',
+    'hand'
+  )
   infoButtonDiv.setAttribute('data-tooltip', 'Gitlab Repository')
   infoButtonDiv.addEventListener('click', () => {
-    window.open('https://gitlab.com/ddi-tu-dresden/cs-school-tools/struktog', '_blank')
+    window.open(
+      'https://gitlab.com/ddi-tu-dresden/cs-school-tools/struktog',
+      '_blank'
+    )
   })
 
   domNode.appendChild(infoButtonDiv)

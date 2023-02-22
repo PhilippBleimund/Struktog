@@ -22,19 +22,6 @@ window.onload = function () {
           presenter.readUrl(json)
         })
     }
-    /* if (template in templates) {
-      if ('model' in templates[template]) {
-        window.localStorage.tree = JSON.stringify(templates[template].model)
-        model.setTree(templates[template].model)
-      }
-      if ('lang' in templates[template]) {
-        window.localStorage.lang = templates[template].lang
-      }
-      if ('displaySourcecode' in templates[template]) {
-        window.localStorage.displaySourcecode =
-          templates[template].displaySourcecode
-      }
-    }  */
     const configId = url.searchParams.get('config')
     config.loadConfig(configId)
   }
