@@ -44,10 +44,13 @@ Aufgaben können über eine übergebene URL geladen werden. Der Server auf dem d
 
 - [Last-Release](https://dditools.inf.tu-dresden.de/releases/struktog/struktog-v1.2.1.tar.gz)
 
+# Maintainer
+
+Thiemo Leonhardt
+
 # Contributors
 
 Klaus Ramm,
-Thiemo Leonhardt,
 Tom-Maurice Schreiber
 Sören Schwab
 
