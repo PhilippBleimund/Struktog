@@ -73,7 +73,7 @@ export class ImportExport {
    * @param    oneLineNodes   number of nodes that are drawn on one line, used to calculate the y position of the next element
    * @return   int            max y positon to which was drawn already, so the parent element knows where to draw the next element
    */
-  renderTreeAsCanvas (subTree, ctx, x, xmax, y, overhead = 0, oneLineNodes = 1) {
+  renderTreeAsCanvas (subTree, ctx, x, xmax, y, overhead = 1, oneLineNodes = 1) {
     // uses a recursive structure, termination condition is no definied element to be drawn
     if (subTree === null) {
       return y
@@ -112,8 +112,7 @@ export class ImportExport {
         }
 
         case 'InputNode': {
-          const stepSize =
-            this.printHeight + (this.printHeight * overhead) / oneLineNodes
+          const stepSize = this.printHeight * (overhead / oneLineNodes)
           ctx.beginPath()
           ctx.moveTo(x, y)
           ctx.lineTo(xmax, y)
@@ -143,8 +142,7 @@ export class ImportExport {
         }
 
         case 'OutputNode': {
-          const stepSize =
-            this.printHeight + (this.printHeight * overhead) / oneLineNodes
+          const stepSize = this.printHeight * (overhead / oneLineNodes)
           ctx.beginPath()
           ctx.moveTo(x, y)
           ctx.lineTo(xmax, y)
@@ -174,11 +172,7 @@ export class ImportExport {
         }
 
         case 'TaskNode': {
-          const stepSize =
-            this.printHeight + (this.printHeight * overhead) / oneLineNodes
-          console.log('stepSize ' + stepSize)
-          console.log('overhead ' + overhead)
-          console.log('oneLineNodes ' + oneLineNodes)
+          const stepSize = this.printHeight * (overhead / oneLineNodes)
           ctx.beginPath()
           ctx.moveTo(x, y)
           ctx.lineTo(xmax, y)
@@ -241,16 +235,17 @@ export class ImportExport {
           let trueChildY = 0
           let falseChildY = 0
           // render the child sub trees
-          if (
-            this.preCountTreeDepth(subTree.trueChild) >
-            this.preCountTreeDepth(subTree.falseChild)
-          ) {
+          const trueDepth = this.preCountTreeDepth(subTree.trueChild)
+          const falseDepth = this.preCountTreeDepth(subTree.falseChild)
+          if (trueDepth > falseDepth) {
             trueChildY = this.renderTreeAsCanvas(
               subTree.trueChild,
               ctx,
               x,
               x + (xmax - x) / 2,
-              y + 2 * this.printHeight
+              y + 2 * this.printHeight,
+              this.preCountTreeDepth(subTree.trueChild),
+              this.countOneLineNodes(subTree.trueChild)
             )
             falseChildY = this.renderTreeAsCanvas(
               subTree.falseChild,
@@ -258,9 +253,7 @@ export class ImportExport {
               x + (xmax - x) / 2,
               xmax,
               y + 2 * this.printHeight,
-              this.preCountTreeDepth(subTree.trueChild) -
-                this.preCountTreeDepth(subTree.falseChild),
-              // count all InputNode, OutputNode, TaskNode in the falseChild
+              this.preCountTreeDepth(subTree.trueChild),
               this.countOneLineNodes(subTree.falseChild)
             )
           } else {
@@ -270,8 +263,7 @@ export class ImportExport {
               x,
               x + (xmax - x) / 2,
               y + 2 * this.printHeight,
-              this.preCountTreeDepth(subTree.falseChild) -
-                this.preCountTreeDepth(subTree.trueChild),
+              this.preCountTreeDepth(subTree.falseChild),
               // count all InputNode, OutputNode, TaskNode in the trueChild
               this.countOneLineNodes(subTree.trueChild)
             )
@@ -280,7 +272,9 @@ export class ImportExport {
               ctx,
               x + (xmax - x) / 2,
               xmax,
-              y + 2 * this.printHeight
+              y + 2 * this.printHeight,
+              this.preCountTreeDepth(subTree.falseChild),
+              this.countOneLineNodes(subTree.falseChild)
             )
           }
 
@@ -306,7 +300,9 @@ export class ImportExport {
             ctx,
             x + (xmax - x) / 12,
             xmax,
-            y + this.printHeight
+            y + this.printHeight,
+            overhead,
+            oneLineNodes
           )
           ctx.rect(x, y, xmax - x, childY - y)
           ctx.stroke()
@@ -336,7 +332,9 @@ export class ImportExport {
             ctx,
             x + (xmax - x) / 12,
             xmax,
-            y
+            y,
+            overhead,
+            oneLineNodes
           )
           ctx.rect(x, y, xmax - x, childY - y + this.printHeight)
           ctx.stroke()
@@ -399,34 +397,63 @@ export class ImportExport {
           ctx.stroke()
           let xPos = x
           // determine the deepest tree by the y coordinate
-          const maxDepth = this.preCountTreeDepth(subTree)
-          console.log('maxDepth', maxDepth)
+          const maxDepth = this.preCountTreeDepth(subTree) - 2
           let yFinally = y + 3 * this.printHeight
           for (const element of subTree.cases) {
-            const childY = this.renderTreeAsCanvas(
-              element,
-              ctx,
-              xPos,
-              xPos + xStep,
-              y + this.printHeight,
-              maxDepth - 2 - this.preCountTreeDepth(element),
-              this.countOneLineNodes(element)
-            )
+            let childY
+            if (maxDepth === this.preCountTreeDepth(element)) {
+            // is the deepest tree
+              childY = this.renderTreeAsCanvas(
+                element,
+                ctx,
+                xPos,
+                xPos + xStep,
+                y + this.printHeight,
+                maxDepth,
+                this.preCountTreeDepth(element)
+              )
+            } else {
+              // is not the deepest tree
+              childY = this.renderTreeAsCanvas(
+                element,
+                ctx,
+                xPos,
+                xPos + xStep,
+                y + this.printHeight,
+                maxDepth - this.countNonOneLineNodes(element),
+                this.countOneLineNodes(element)
+              )
+            }
             if (childY > yFinally) {
               yFinally = childY
             }
             xPos = xPos + xStep
           }
           if (subTree.defaultOn) {
-            const childY = this.renderTreeAsCanvas(
-              subTree.defaultNode,
-              ctx,
-              xPos,
-              xmax,
-              y + this.printHeight,
-              maxDepth - 2 - this.preCountTreeDepth(subTree.defaultNode),
-              this.countOneLineNodes(subTree.defaultNode)
-            )
+            let childY
+            if (maxDepth === this.preCountTreeDepth(subTree.defaultNode)) {
+            // is the deepest tree
+              childY = this.renderTreeAsCanvas(
+                subTree.defaultNode,
+                ctx,
+                xPos,
+                xPos + xStep,
+                y + this.printHeight,
+                maxDepth,
+                this.preCountTreeDepth(subTree.defaultNode)
+              )
+            } else {
+              // is not the deepest tree
+              childY = this.renderTreeAsCanvas(
+                subTree.defaultNode,
+                ctx,
+                xPos,
+                xPos + xStep,
+                y + this.printHeight,
+                maxDepth - this.countNonOneLineNodes(subTree.defaultNode),
+                this.countOneLineNodes(subTree.defaultNode)
+              )
+            }
             if (childY > yFinally) {
               yFinally = childY
             }
@@ -556,7 +583,6 @@ export class ImportExport {
         case 'CountLoopNode':
         case 'HeadLoopNode':
         case 'FootLoopNode': {
-          console.log(subTree)
           return (
             1 +
             this.preCountTreeDepth(subTree.child) +
@@ -572,7 +598,10 @@ export class ImportExport {
           if (subTree.defaultOn) {
             maxList.push(this.preCountTreeDepth(subTree.defaultNode))
           }
-          return 2 + Math.max(...maxList)
+          return (
+            2 +
+            Math.max(...maxList)
+          )
         }
       }
     }
@@ -594,11 +623,55 @@ export class ImportExport {
         case 'TaskNode': {
           return 1 + this.countOneLineNodes(subTree.followElement)
         }
+        case 'CountLoopNode':
+        case 'HeadLoopNode':
+        case 'FootLoopNode': {
+          return (
+            this.countOneLineNodes(subTree.child) +
+            this.countOneLineNodes(subTree.followElement)
+          )
+        }
+        case 'BranchNode': {
+          return (
+            Math.max(...[this.countOneLineNodes(subTree.trueChild), this.countOneLineNodes(subTree.falseChild)])
+          )
+        }
+        // case 'CaseNode': {
+        //   const maxList = []
+        //   for (const element of subTree.cases) {
+        //     maxList.push(this.countOneLineNodes(element))
+        //   }
+        //   if (subTree.defaultOn) {
+        //     maxList.push(this.countOneLineNodes(subTree.defaultNode))
+        //   }
+        //   return (
+        //     Math.max(...maxList)
+        //   )
+        // }
         case 'Placeholder': {
           return 0
         }
         default: {
           return this.countOneLineNodes(subTree.followElement)
+        }
+      }
+    }
+  }
+
+  countNonOneLineNodes (subTree) {
+    if (subTree === null) {
+      return 0
+    } else {
+      switch (subTree.type) {
+        case 'CaseNode':
+        case 'BranchNode':
+        case 'CountLoopNode':
+        case 'HeadLoopNode':
+        case 'FootLoopNode': {
+          return this.preCountTreeDepth(subTree) + this.countNonOneLineNodes(subTree.followElement)
+        }
+        default: {
+          return this.countNonOneLineNodes(subTree.followElement)
         }
       }
     }
