@@ -112,7 +112,7 @@ export class ImportExport {
         }
 
         case 'InputNode': {
-          const stepSize = this.printHeight * (overhead / oneLineNodes)
+          const stepSize = overhead < 1 || oneLineNodes < 1 ? this.printHeight : this.printHeight * (overhead / oneLineNodes)
           ctx.beginPath()
           ctx.moveTo(x, y)
           ctx.lineTo(xmax, y)
@@ -142,7 +142,7 @@ export class ImportExport {
         }
 
         case 'OutputNode': {
-          const stepSize = this.printHeight * (overhead / oneLineNodes)
+          const stepSize = overhead < 1 || oneLineNodes < 1 ? this.printHeight : this.printHeight * (overhead / oneLineNodes)
           ctx.beginPath()
           ctx.moveTo(x, y)
           ctx.lineTo(xmax, y)
@@ -172,7 +172,7 @@ export class ImportExport {
         }
 
         case 'TaskNode': {
-          const stepSize = this.printHeight * (overhead / oneLineNodes)
+          const stepSize = overhead < 1 || oneLineNodes < 1 ? this.printHeight : this.printHeight * (overhead / oneLineNodes)
           ctx.beginPath()
           ctx.moveTo(x, y)
           ctx.lineTo(xmax, y)
@@ -238,13 +238,16 @@ export class ImportExport {
           const trueDepth = this.preCountTreeDepth(subTree.trueChild)
           const falseDepth = this.preCountTreeDepth(subTree.falseChild)
           if (trueDepth > falseDepth) {
+            console.log('pre', this.preCountTreeDepth(subTree.trueChild))
+            console.log('one', this.countOneLineNodes(subTree.trueChild))
+            console.log('none', this.countNonOneLineNodes(subTree.trueChild))
             trueChildY = this.renderTreeAsCanvas(
               subTree.trueChild,
               ctx,
               x,
               x + (xmax - x) / 2,
               y + 2 * this.printHeight,
-              this.preCountTreeDepth(subTree.trueChild),
+              this.preCountTreeDepth(subTree.trueChild) - this.countNonOneLineNodes(subTree.trueChild),
               this.countOneLineNodes(subTree.trueChild)
             )
             falseChildY = this.renderTreeAsCanvas(
@@ -273,7 +276,7 @@ export class ImportExport {
               x + (xmax - x) / 2,
               xmax,
               y + 2 * this.printHeight,
-              this.preCountTreeDepth(subTree.falseChild),
+              this.preCountTreeDepth(subTree.falseChild) - this.countNonOneLineNodes(subTree.falseChild),
               this.countOneLineNodes(subTree.falseChild)
             )
           }
@@ -301,8 +304,8 @@ export class ImportExport {
             x + (xmax - x) / 12,
             xmax,
             y + this.printHeight,
-            overhead,
-            oneLineNodes
+            overhead - 1 - this.countNonOneLineNodes(subTree.child),
+            this.countOneLineNodes(subTree.child)
           )
           ctx.rect(x, y, xmax - x, childY - y)
           ctx.stroke()
@@ -333,8 +336,8 @@ export class ImportExport {
             x + (xmax - x) / 12,
             xmax,
             y,
-            overhead,
-            oneLineNodes
+            overhead - 1 - this.countNonOneLineNodes(subTree.child),
+            this.countOneLineNodes(subTree.child)
           )
           ctx.rect(x, y, xmax - x, childY - y + this.printHeight)
           ctx.stroke()
@@ -623,31 +626,6 @@ export class ImportExport {
         case 'TaskNode': {
           return 1 + this.countOneLineNodes(subTree.followElement)
         }
-        case 'CountLoopNode':
-        case 'HeadLoopNode':
-        case 'FootLoopNode': {
-          return (
-            this.countOneLineNodes(subTree.child) +
-            this.countOneLineNodes(subTree.followElement)
-          )
-        }
-        case 'BranchNode': {
-          return (
-            Math.max(...[this.countOneLineNodes(subTree.trueChild), this.countOneLineNodes(subTree.falseChild)])
-          )
-        }
-        // case 'CaseNode': {
-        //   const maxList = []
-        //   for (const element of subTree.cases) {
-        //     maxList.push(this.countOneLineNodes(element))
-        //   }
-        //   if (subTree.defaultOn) {
-        //     maxList.push(this.countOneLineNodes(subTree.defaultNode))
-        //   }
-        //   return (
-        //     Math.max(...maxList)
-        //   )
-        // }
         case 'Placeholder': {
           return 0
         }
