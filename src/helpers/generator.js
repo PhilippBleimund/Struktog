@@ -122,7 +122,12 @@ export function generateHtmltree () {
   modalFooter.classList.add('modal-footer', 'container')
   modalFooter.setAttribute('id', 'modal-footer')
   modalContainer.appendChild(modalFooter)
+}
 
+/**
+ * Generate HTML tree for footer
+**/
+export function generateFooter () {
   // footer
   const footer = document.createElement('footer')
   footer.classList.add('container')
@@ -133,10 +138,47 @@ export function generateHtmltree () {
   footer.appendChild(footerDiv)
 
   const footerSpan = document.createElement('span')
-  footerSpan.appendChild(
-    document.createTextNode('v1.2.1 Didaktik der Informatik der TU Dresden')
+
+  const url = new URL(window.location.href)
+  // if url contains subfolder 'dev'
+  if (url.pathname.split('/')[1] === 'dev') {
+    // create textnode
+    const devText = document.createTextNode('Development branch please use ')
+    footerSpan.appendChild(devText)
+    // create link
+    const devLink = document.createElement('a')
+    devLink.appendChild(document.createTextNode('stable version'))
+    devLink.setAttribute('href', 'https://dditools.inf.tu-dresden.de/struktog/')
+    footerSpan.appendChild(devLink)
+    footerSpan.appendChild(document.createTextNode(' | '))
+  }
+
+  const sourceLink = document.createElement('div')
+  sourceLink.classList.add(
+    'hand'
   )
+  sourceLink.appendChild(document.createTextNode('Source code'))
+  sourceLink.setAttribute('href', 'https://gitlab.com/ddi-tu-dresden/cs-school-tools/struktog')
+  sourceLink.setAttribute('data-tooltip', 'Gitlab Repository')
+  sourceLink.addEventListener('click', () => {
+    window.open(
+      'https://gitlab.com/ddi-tu-dresden/cs-school-tools/struktog',
+      '_blank'
+    )
+  })
+
+  const text = document.createElement('div')
+  text.appendChild(document.createTextNode('Didaktik der Informatik der TU Dresden'))
+
+  const hash = document.createElement('div')
+  hash.appendChild(document.createTextNode(__COMMIT_HASH__))
+
   footerDiv.appendChild(footerSpan)
+  footerSpan.appendChild(sourceLink)
+  footerSpan.appendChild(document.createTextNode('|'))
+  footerSpan.appendChild(text)
+  footerSpan.appendChild(document.createTextNode('|'))
+  footerSpan.appendChild(hash)
 }
 
 export function generateResetButton (presenter, domNode) {

@@ -5,7 +5,7 @@ import { Presenter } from './presenter/main'
 import { Structogram } from './views/structogram'
 import { CodeView } from './views/code'
 import { ImportExport } from './views/importExport'
-import { generateHtmltree, generateInfoButton } from './helpers/generator'
+import { generateFooter, generateHtmltree } from './helpers/generator'
 
 import './assets/scss/structog.scss'
 
@@ -27,6 +27,7 @@ window.onload = function () {
   }
 
   generateHtmltree()
+  generateFooter()
   // create presenter object
   const presenter = new Presenter(model)
   // TODO: this should not be necessary, but some functions depend on moveId and nextInsertElement
@@ -46,7 +47,7 @@ window.onload = function () {
   )
   presenter.addView(importExport)
 
-  generateInfoButton(document.getElementById('optionButtons'))
+  // generateInfoButton(document.getElementById('optionButtons'))
 
   presenter.init()
 }

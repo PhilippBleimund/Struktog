@@ -59,6 +59,7 @@ export class Structogram {
 
     const divEditorContent = document.createElement('div')
     divEditorContent.classList.add('vcontainer', 'columnEditorStructogram')
+    divEditorContent.id = 'editorContent'
 
     const divEditorContentSplitTop = document.createElement('div')
     divEditorContentSplitTop.classList.add('columnAuto', 'container')
@@ -78,7 +79,11 @@ export class Structogram {
     divEditorContentSplitTop.appendChild(divFixRightBorder)
     divEditorContent.appendChild(divEditorContentSplitBottom)
 
+    const editorOptions = document.createElement('div')
+    editorOptions.classList.add('columnEditorOptions', 'columnFull')
+
     this.domRoot.appendChild(divInsert)
+    this.domRoot.appendChild(editorOptions)
     this.domRoot.appendChild(divEditorHeadline)
     this.domRoot.appendChild(divEditorContent)
 
@@ -89,11 +94,9 @@ export class Structogram {
     const optionsContainer2 = document.createElement('div')
     optionsContainer2.id = 'struktoOptions2'
     optionsContainer2.classList.add(
-      'columnFull',
-      'container',
       'struktoOptions2'
     )
-    codeAndOptions.appendChild(optionsContainer2)
+    editorOptions.appendChild(optionsContainer2)
 
     this.createStrukOptions(optionsContainer2)
 

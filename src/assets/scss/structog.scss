@@ -27,9 +27,14 @@ body {
 }
 
 footer {
-  text-align: right;
+  text-align: center;
   font-size: small;
   padding: 8px;
+}
+
+footer div {
+  display: inline-block;
+  margin: 0 0.5em;
 }
 
 strong {
@@ -152,7 +157,7 @@ strong {
 
 @media screen and (min-width: 1200px) {
   .columnEditorStructogram {
-    flex-basis: 75%;
+    flex-basis: 100%;
   }
 
   .columnEditorCode {
