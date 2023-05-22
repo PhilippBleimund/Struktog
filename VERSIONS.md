@@ -1,3 +1,10 @@
+v1.3.0
+- refactor Import Export
+- GUI Adjustment
+- add try-catch element to png-export
+- change Licence to aGPL 3
+- several bugfixes 
+
 v1.2.1
 
 - Bugfix SVG Export Branch, Case and Function
