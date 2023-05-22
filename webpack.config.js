@@ -6,6 +6,13 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const WebpackShellPluginNext = require('webpack-shell-plugin-next')
 const CopyPlugin = require('copy-webpack-plugin')
 const gameRoot = process.cwd()
+const Webpack = require('webpack')
+
+// get git info from command line
+const commitHash = require('child_process')
+  .execSync('git describe --tags')
+  .toString()
+  .trim()
 
 // the path(s) that should be cleaned
 const pathsToClean = ['build']
@@ -54,6 +61,9 @@ const config = {
     ]
   },
   plugins: [
+    new Webpack.DefinePlugin({
+      __COMMIT_HASH__: JSON.stringify(commitHash)
+    }),
     new WebpackShellPluginNext({
       onBuildStart: {
         scripts: ['node ./build_tools/prepareSvg.js'],
@@ -83,7 +93,7 @@ const config = {
     })
   ],
   devServer: {
-    port: 8080,
+    port: 8081,
     contentBase: './src',
     watchOptions: {
       poll: true

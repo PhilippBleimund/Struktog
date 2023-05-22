@@ -6,6 +6,7 @@ module.exports = {
     Presenter: true,
     localStorage: true,
     FileReader: true,
-    presenter: true
+    presenter: true,
+    __COMMIT_HASH__: true
   }
 }

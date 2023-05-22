@@ -163,6 +163,15 @@ $main-background-color: rgba(128,212,255, 0.5);
   }
 }
 
+.columnEditorOptions {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  margin-top: 0.8em;
+}
+
 .columnFull {
   flex-basis: 100%;
 }
@@ -219,6 +228,7 @@ $main-background-color: rgba(128,212,255, 0.5);
   height: 2em;
   padding-top: 0.3em;
 }
+
 @media screen and (min-width: 1200px) {
   .struktoOptions1 {
     display: none !important;

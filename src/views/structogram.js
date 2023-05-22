@@ -1,3 +1,20 @@
+/*
+ Copyright (C) 2019-2023 Thiemo Leonhardt, Klaus Ramm, Tom-Maurice Schreiber, Sören Schwab
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Affero General Public License as
+ published by the Free Software Foundation, either version 3 of the
+ License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Affero General Public License for more details.
+
+ You should have received a copy of the GNU Affero General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { config } from '../config.js'
 import { generateResetButton } from '../helpers/generator'
 import { newElement } from '../helpers/domBuilding'
@@ -59,6 +76,7 @@ export class Structogram {
 
     const divEditorContent = document.createElement('div')
     divEditorContent.classList.add('vcontainer', 'columnEditorStructogram')
+    divEditorContent.id = 'editorContent'
 
     const divEditorContentSplitTop = document.createElement('div')
     divEditorContentSplitTop.classList.add('columnAuto', 'container')
@@ -78,7 +96,11 @@ export class Structogram {
     divEditorContentSplitTop.appendChild(divFixRightBorder)
     divEditorContent.appendChild(divEditorContentSplitBottom)
 
+    const editorOptions = document.createElement('div')
+    editorOptions.classList.add('columnEditorOptions', 'columnFull')
+
     this.domRoot.appendChild(divInsert)
+    this.domRoot.appendChild(editorOptions)
     this.domRoot.appendChild(divEditorHeadline)
     this.domRoot.appendChild(divEditorContent)
 
@@ -89,11 +111,9 @@ export class Structogram {
     const optionsContainer2 = document.createElement('div')
     optionsContainer2.id = 'struktoOptions2'
     optionsContainer2.classList.add(
-      'columnFull',
-      'container',
       'struktoOptions2'
     )
-    codeAndOptions.appendChild(optionsContainer2)
+    editorOptions.appendChild(optionsContainer2)
 
     this.createStrukOptions(optionsContainer2)
 

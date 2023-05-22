@@ -1,3 +1,20 @@
+/*
+ Copyright (C) 2019-2023 Thiemo Leonhardt, Klaus Ramm, Tom-Maurice Schreiber, Sören Schwab
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Affero General Public License as
+ published by the Free Software Foundation, either version 3 of the
+ License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Affero General Public License for more details.
+
+ You should have received a copy of the GNU Affero General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 /**
  * Generate a random id string
  *
@@ -122,7 +139,12 @@ export function generateHtmltree () {
   modalFooter.classList.add('modal-footer', 'container')
   modalFooter.setAttribute('id', 'modal-footer')
   modalContainer.appendChild(modalFooter)
+}
 
+/**
+ * Generate HTML tree for footer
+**/
+export function generateFooter () {
   // footer
   const footer = document.createElement('footer')
   footer.classList.add('container')
@@ -133,10 +155,47 @@ export function generateHtmltree () {
   footer.appendChild(footerDiv)
 
   const footerSpan = document.createElement('span')
-  footerSpan.appendChild(
-    document.createTextNode('v1.2.1 Didaktik der Informatik der TU Dresden')
+
+  const url = new URL(window.location.href)
+  // if url contains subfolder 'dev'
+  if (url.pathname.split('/')[1] === 'dev') {
+    // create textnode
+    const devText = document.createTextNode('Development branch please use ')
+    footerSpan.appendChild(devText)
+    // create link
+    const devLink = document.createElement('a')
+    devLink.appendChild(document.createTextNode('stable version'))
+    devLink.setAttribute('href', 'https://dditools.inf.tu-dresden.de/struktog/')
+    footerSpan.appendChild(devLink)
+    footerSpan.appendChild(document.createTextNode(' | '))
+  }
+
+  const sourceLink = document.createElement('div')
+  sourceLink.classList.add(
+    'hand'
   )
+  sourceLink.appendChild(document.createTextNode('Source code'))
+  sourceLink.setAttribute('href', 'https://gitlab.com/ddi-tu-dresden/cs-school-tools/struktog')
+  sourceLink.setAttribute('data-tooltip', 'Gitlab Repository')
+  sourceLink.addEventListener('click', () => {
+    window.open(
+      'https://gitlab.com/ddi-tu-dresden/cs-school-tools/struktog',
+      '_blank'
+    )
+  })
+
+  const text = document.createElement('div')
+  text.appendChild(document.createTextNode('Didaktik der Informatik der TU Dresden'))
+
+  const hash = document.createElement('div')
+  hash.appendChild(document.createTextNode(__COMMIT_HASH__))
+
   footerDiv.appendChild(footerSpan)
+  footerSpan.appendChild(sourceLink)
+  footerSpan.appendChild(document.createTextNode('|'))
+  footerSpan.appendChild(text)
+  footerSpan.appendChild(document.createTextNode('|'))
+  footerSpan.appendChild(hash)
 }
 
 export function generateResetButton (presenter, domNode) {

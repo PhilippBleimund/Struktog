@@ -1,3 +1,20 @@
+/*
+ Copyright (C) 2019-2023 Thiemo Leonhardt, Klaus Ramm, Tom-Maurice Schreiber, Sören Schwab
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Affero General Public License as
+ published by the Free Software Foundation, either version 3 of the
+ License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Affero General Public License for more details.
+
+ You should have received a copy of the GNU Affero General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { newElement } from '../helpers/domBuilding'
 
 export class CodeView {
@@ -1013,11 +1030,17 @@ export class CodeView {
         item.setAttribute('data-tooltip', 'Quellcode ausblenden')
       }
       document.getElementById('SourcecodeDisplay').style.display = 'block'
+      if (window.matchMedia('(max-width: 1200px)')) {
+        document.getElementById('editorContent').style.flexBasis = '75%'
+      }
     } else {
       for (const item of fields) {
         item.setAttribute('data-tooltip', 'Quellcode einblenden')
       }
       document.getElementById('SourcecodeDisplay').style.display = 'none'
+      if (window.matchMedia('(max-width: 1200px)')) {
+        document.getElementById('editorContent').style.flexBasis = '100%'
+      }
     }
   }
 }
