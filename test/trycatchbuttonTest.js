@@ -9,7 +9,7 @@ async function browserChrome() {
 
   try {
     //open the website
-    await driver.get('http://localhost:8081/');
+    await driver.get('http://127.0.0.1:5500/build/index.html');
 
     //find the button, click and check for class
     await driver.findElement(By.id('TryCatchButton')).click();
