@@ -9,7 +9,7 @@ async function browserChrome() {
 
   try {
     //open the website
-    await driver.get('http://localhost:8081/');
+    await driver.get('http://127.0.0.1:5500/build/index.html');
 
     //find the button, click and check for class
     await driver.findElement(By.id('FootLoopButton')).click();
@@ -26,7 +26,7 @@ async function browserChrome() {
     assert.strictEqual(vtest, 'test');
     console.log('Text Test passed');
 
-    //click delete icon and check if element has been deleted (array of applicable elements is empty)
+    //click delete icon and check if element has been deleted (array of applicable elements is empty)    
     await driver.findElement(By.xpath('/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[2]/div[2]/div[2]')).click();
     vtest = (await driver.findElements(By.xpath('/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[1]/div[1]/span'))).length;
 
