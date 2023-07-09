@@ -29,7 +29,7 @@ const tryCatchButton = new Button(  'TryCatchButton',   '/div[4]/div[2]/div[2]/i
 const functionButton = new Button(  'FunctionButton',   '/div[1]/div[2]/input',                 '/div[1]/div[2]/span',                  '/div[1]/div[6]/div/div',       '');
 
 
-let buttons = [inputButton, outputButton, taskButton, countLoopButton, headLoopButton, /*footLoopButton,*/ branchButton, caseButton/*, tryCatchButton,*/ /*functionButton*/];
+let buttons = [inputButton, outputButton, taskButton, countLoopButton, headLoopButton, /*footLoopButton,*/ branchButton/*, caseButton/*, tryCatchButton,*/ /*functionButton*/];
 
 async function uiTest(driver, basePath, loopClickPath, loopPath, counter) {
 
@@ -46,6 +46,7 @@ async function uiTest(driver, basePath, loopClickPath, loopPath, counter) {
         console.log('Click Test passed');
         
         //click to open text area, put in "test" and check if text is "test"
+        console.log('loopClickPath: ' + loopClickPath + ' ' + counter);
         await driver.findElement(By.xpath(basePath + loopClickPath)).click(); 
         await driver.findElement(By.xpath(baseX + loopPath + buttons[i].inputX)).sendKeys('test' + Key.RETURN);
         vtest = await driver.findElement(By.xpath(baseX + loopPath + buttons[i].textX)).getText();
@@ -58,14 +59,16 @@ async function uiTest(driver, basePath, loopClickPath, loopPath, counter) {
         if (counter == 0 && buttons[i].loopX != '') { 
             await uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', buttons[i].clickX, buttons[i].loopX, counter + 1); //wenn von Tiefe 0 auf 1, dann nur einfachen loopClickX
         } else if (counter < 2 && buttons[i].loopX != '') {
-            await uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', buttons[i].loopClickX + loopClickPath, loopPath + buttons[i].loopX, counter + 1); //wenn von Tiefe !=0 tiefer, dann loopClickX zweifach notwendig
-        }
+
+            console.log('Der Funktion wird übergeben: ' + loopClickPath + ' ' + buttons[i].loopClickX + ' ');
+            await uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', loopClickPath + buttons[i].loopClickX, loopPath + buttons[i].loopX, counter + 1); //wenn von Tiefe !=0 tiefer, dann loopClickX zweifach notwendig
+        } else {}
             
         //click delete icon and check if element has been deleted (array of applicable elements is empty)
         let delButton = await driver.findElement(By.xpath(baseX + loopPath + buttons[i].deleteX));
         const actions = driver.actions();
-        console.log(baseX + loopPath + buttons[i].deleteX + '   ' + counter);
-        await actions.move({duration: 500, origin: delButton}).perform();
+        console.log('Delete: '+ baseX + loopPath + buttons[i].deleteX + '    Counter: ' + counter);
+        await actions.move({duration: 200, origin: delButton}).perform();
         await delButton.click();
         vtest = (await driver.findElements(By.xpath(baseX + loopPath + buttons[i].textX))).length;
 
