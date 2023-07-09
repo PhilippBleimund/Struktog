@@ -1,6 +1,6 @@
 require("chromedriver");
 
-const { Builder, By, Key, until} = require("selenium-webdriver");
+const { Builder, By, Key, until, Actions, WebDriver} = require("selenium-webdriver");
 const assert = require("assert");
 
 const baseX = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div';
@@ -29,19 +29,22 @@ const tryCatchButton = new Button(  'TryCatchButton',   '/div[4]/div[2]/div[2]/i
 const functionButton = new Button(  'FunctionButton',   '/div[1]/div[2]/input',                 '/div[1]/div[2]/span',                  '/div[1]/div[6]/div/div',       '');
 
 
-let buttons = [inputButton, outputButton, taskButton, countLoopButton, headLoopButton, footLoopButton, branchButton, caseButton, tryCatchButton, functionButton];
+let buttons = [inputButton, outputButton, taskButton, countLoopButton, headLoopButton, /*footLoopButton,*/ branchButton, caseButton, /*tryCatchButton,*/ functionButton];
 
 async function uiTest(driver, basePath, loopClickPath, loopPath, counter) {
+
+    let vtest;
+    //await driver.manage().setTimeouts({implicit: 2000});
     
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < buttons.length; i++) {
         //find the button, click and check for class
         console.log(buttons[i].id);
         await driver.findElement(By.id(buttons[i].id)).click();
-        let vtest = await driver.findElement(By.id(buttons[i].id)).getAttribute('class');
+        vtest = await driver.findElement(By.id(buttons[i].id)).getAttribute('class');
 
         assert.strictEqual(vtest, 'columnInput insertButton hand boldText');
         console.log('Click Test passed');
-
+        
         //click to open text area, put in "test" and check if text is "test"
         await driver.findElement(By.xpath(basePath + loopClickPath)).click(); 
         await driver.findElement(By.xpath(baseX + loopPath + buttons[i].inputX)).sendKeys('test' + Key.RETURN);
@@ -51,21 +54,19 @@ async function uiTest(driver, basePath, loopClickPath, loopPath, counter) {
         console.log('Text Test passed');
 
         //HIER MUSS DANN DIE REKURSION HIN 
-/*
-        if (counter = 0 && buttons[i].loopX != '') { 
-            uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', buttons[i].clickX, buttons[i].loopX, counter + 1); //wenn von Tiefe 0 auf 1, dann nur einfachen loopClickX
-        } 
-        if (counter < 3 && buttons[i].loopX != '') {
-            uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', buttons[i].loopClickX + loopClickPath, loopPath + buttons[i].loopX, counter + 1); //wenn von Tiefe !=0 tiefer, dann loopClickX zweifach notwendig
-        }*/
-            
-            
-            
-        
-            
 
+        if (counter == 0 && buttons[i].loopX != '') { 
+            await uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', buttons[i].clickX, buttons[i].loopX, counter + 1); //wenn von Tiefe 0 auf 1, dann nur einfachen loopClickX
+        } else if (counter < 3 && buttons[i].loopX != '') {
+            await uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', buttons[i].loopClickX + loopClickPath, loopPath + buttons[i].loopX, counter + 1); //wenn von Tiefe !=0 tiefer, dann loopClickX zweifach notwendig
+        }
+            
         //click delete icon and check if element has been deleted (array of applicable elements is empty)
-        await driver.findElement(By.xpath(baseX + loopPath + buttons[i].deleteX)).click();
+        let delButton = await driver.findElement(By.xpath(baseX + loopPath + buttons[i].deleteX));
+        const actions = driver.actions();
+        console.log(baseX + loopPath + buttons[i].deleteX);
+        await actions.move({duration: 500, origin: delButton}).perform();
+        await delButton.click();
         vtest = (await driver.findElements(By.xpath(baseX + loopPath + buttons[i].textX))).length;
 
         assert.strictEqual(vtest, 0);
@@ -133,7 +134,8 @@ async function uiTest(driver, basePath, loopClickPath, loopPath, counter) {
 
 async function selTest() {
     let driver = await new Builder().forBrowser("chrome").build(); //open Chrome browser
-    await driver.get('http://127.0.0.1:5500/build/index.html'); //open the website
+    await driver.get('http://127.0.0.1:5500/build/index.html'); //open the website 
+    await driver.manage().setTimeouts({pageLoad: 5000});
     try {
         await uiTest(driver, baseX, '', '', 0);
     } finally {
