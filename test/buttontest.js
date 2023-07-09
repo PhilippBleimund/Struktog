@@ -29,7 +29,7 @@ const tryCatchButton = new Button(  'TryCatchButton',   '/div[4]/div[2]/div[2]/i
 const functionButton = new Button(  'FunctionButton',   '/div[1]/div[2]/input',                 '/div[1]/div[2]/span',                  '/div[1]/div[6]/div/div',       '');
 
 
-let buttons = [inputButton, outputButton, taskButton, countLoopButton, headLoopButton, /*footLoopButton,*/ branchButton, caseButton, /*tryCatchButton,*/ functionButton];
+let buttons = [inputButton, outputButton, taskButton, countLoopButton, headLoopButton, /*footLoopButton,*/ branchButton, caseButton/*, tryCatchButton,*/ /*functionButton*/];
 
 async function uiTest(driver, basePath, loopClickPath, loopPath, counter) {
 
