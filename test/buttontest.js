@@ -64,7 +64,7 @@ async function uiTest(driver, basePath, loopClickPath, loopPath, counter) {
         //click delete icon and check if element has been deleted (array of applicable elements is empty)
         let delButton = await driver.findElement(By.xpath(baseX + loopPath + buttons[i].deleteX));
         const actions = driver.actions();
-        console.log(baseX + loopPath + buttons[i].deleteX);
+        console.log(baseX + loopPath + buttons[i].deleteX + '   ' + counter);
         await actions.move({duration: 500, origin: delButton}).perform();
         await delButton.click();
         vtest = (await driver.findElements(By.xpath(baseX + loopPath + buttons[i].textX))).length;
