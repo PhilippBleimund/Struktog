@@ -24,7 +24,7 @@ const countLoopButton = new Button( 'CountLoopButton',  '/div[1]/div[1]/div[2]/i
 const headLoopButton = new Button(  'HeadLoopButton',   '/div[1]/div[1]/div[2]/input',          '/div[1]/div[1]/div[1]/span',           '/div[1]/div[2]/div[2]',        '/div[2]/div',      '/div[2]/div/div[2]/div',       '/div[2]/div/div/div'    );
 const footLoopButton = new Button(  'FootLoopButton',   '/div[2]/div[1]/div[2]/input',          '/div[2]/div[1]/div[1]/span',           '/div[2]/div[2]/div[2]',        '/div[1]/div',      '/div[1]/div/div[1]/div',       '/div[1]/div/div[1]/div' );
 const branchButton = new Button(    'BranchButton',     '/div[1]/div[1]/div[1]/div[2]/input',   '/div[1]/div[1]/div[1]/div[1]/span',    '/div[1]/div[1]/div[2]/div[2]', '/div[2]/div[1]',   '/div[2]/div[1]/div[2]/div',    '/div[2]/div[1]/div/div' );
-const caseButton = new Button(      'CaseButton',       '/div[1]/div[1]/div[2]/input',          '/div[1]/div[1]/div[1]/span',           '/div[1]/div[2]/div[3]',        '');
+const caseButton = new Button(      'CaseButton',       '/div[1]/div[1]/div[2]/input',          '/div[1]/div[1]/div[1]/span',           '/div[1]/div[2]/div[3]',        '/div[2]/div[1]/div[2]/div/div','/div[2]/div[1]/div[3]/div','/div[2]/div[1]/div[2]/div');
 const tryCatchButton = new Button(  'TryCatchButton',   '/div[4]/div[2]/div[2]/input',          '/div[4]/div[2]/div[1]/span',           '/div[1]/div[1]/div[2]',        '');
 const functionButton = new Button(  'FunctionButton',   '/div[1]/div[2]/input',                 '/div[1]/div[2]/span',                  '/div[1]/div[6]/div/div',       '');
 
@@ -57,7 +57,7 @@ async function uiTest(driver, basePath, loopClickPath, loopPath, counter) {
 
         if (counter == 0 && buttons[i].loopX != '') { 
             await uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', buttons[i].clickX, buttons[i].loopX, counter + 1); //wenn von Tiefe 0 auf 1, dann nur einfachen loopClickX
-        } else if (counter < 3 && buttons[i].loopX != '') {
+        } else if (counter < 2 && buttons[i].loopX != '') {
             await uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', buttons[i].loopClickX + loopClickPath, loopPath + buttons[i].loopX, counter + 1); //wenn von Tiefe !=0 tiefer, dann loopClickX zweifach notwendig
         }
             
