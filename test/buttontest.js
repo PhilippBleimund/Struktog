@@ -1,7 +1,10 @@
-require("chromedriver");
+require('chromedriver');
+require('geckodriver');
 
-const { Builder, By, Key, until, Actions, WebDriver} = require("selenium-webdriver");
-const assert = require("assert");
+const chrome = require('selenium-webdriver/chrome'); 
+const firefox = require('selenium-webdriver/firefox');
+const {Builder, By, Key, until, Actions, WebDriver} = require('selenium-webdriver');
+const assert = require('assert');
 
 const baseX = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div';
 
@@ -22,19 +25,19 @@ const outputButton = new Button(    'OutputButton',     '/div[1]/div[2]/input', 
 const taskButton = new Button(      'TaskButton',       '/div[1]/div[2]/input',                 '/div[1]/div[1]/span',                  '/div[2]/div[2]',               '', '', '');
 const countLoopButton = new Button( 'CountLoopButton',  '/div[1]/div[1]/div[2]/input',          '/div[1]/div[1]/div[1]/span',           '/div[1]/div[2]/div[2]',        '/div[2]/div',      '/div[2]/div/div[2]/div',       '/div[2]/div/div/div'    );
 const headLoopButton = new Button(  'HeadLoopButton',   '/div[1]/div[1]/div[2]/input',          '/div[1]/div[1]/div[1]/span',           '/div[1]/div[2]/div[2]',        '/div[2]/div',      '/div[2]/div/div[2]/div',       '/div[2]/div/div/div'    );
-const footLoopButton = new Button(  'FootLoopButton',   '/div[2]/div[1]/div[2]/input',          '/div[2]/div[1]/div[1]/span',           '/div[2]/div[2]/div[2]',        '/div[1]/div',      '/div[1]/div/div[1]/div',       '/div[1]/div/div[1]/div' );
+const footLoopButton = new Button(  'FootLoopButton',   '/div[2]/div[1]/div[2]/input',          '/div[2]/div[1]/div[1]/span',           '/div[2]/div[2]/div[2]',        '/div[1]/div',      '/div[1]/div/div[2]/div',       '/div[1]/div/div[1]/div' );
 const branchButton = new Button(    'BranchButton',     '/div[1]/div[1]/div[1]/div[2]/input',   '/div[1]/div[1]/div[1]/div[1]/span',    '/div[1]/div[1]/div[2]/div[2]', '/div[2]/div[1]',   '/div[2]/div[1]/div[2]/div',    '/div[2]/div[1]/div/div' );
-const caseButton = new Button(      'CaseButton',       '/div[1]/div[1]/div[2]/input',          '/div[1]/div[1]/div[1]/span',           '/div[1]/div[2]/div[3]',        '/div[2]/div[1]/div[2]/div/div','/div[2]/div[1]/div[3]/div','/div[2]/div[1]/div[2]/div');
-const tryCatchButton = new Button(  'TryCatchButton',   '/div[4]/div[2]/div[2]/input',          '/div[4]/div[2]/div[1]/span',           '/div[1]/div[1]/div[2]',        '');
+const caseButton = new Button(      'CaseButton',       '/div[1]/div[1]/div[2]/input',          '/div[1]/div[1]/div[1]/span',           '/div[1]/div[2]/div[3]',        '/div[2]/div[1]/div[2]','/div[2]/div[1]/div[3]/div','/div[2]/div[1]/div[2]/div');
+const tryCatchButton = new Button(  'TryCatchButton',   '/div[4]/div[2]/div[2]/input',          '/div[4]/div[2]/div[1]/span',           '/div[1]/div[1]/div[2]',        '/div[2]/div', '/div[2]/div/div[2]/div', '/div[2]/div/div/div');
 const functionButton = new Button(  'FunctionButton',   '/div[1]/div[2]/input',                 '/div[1]/div[2]/span',                  '/div[1]/div[6]/div/div',       '');
 
 
-let buttons = [inputButton, outputButton, taskButton, countLoopButton, headLoopButton, /*footLoopButton,*/ branchButton/*, caseButton/*, tryCatchButton,*/ /*functionButton*/];
+let buttons = [inputButton, outputButton, taskButton, countLoopButton, headLoopButton, footLoopButton, branchButton, caseButton/*, tryCatchButton/*, functionButton*/];
 
-async function uiTest(driver, basePath, loopClickPath, loopPath, counter) {
+async function uiTest(driver, basePath, clickPath, loopClickPath, loopPath, counter) {
 
     let vtest;
-    //await driver.manage().setTimeouts({implicit: 2000});
+    await driver.manage().setTimeouts({implicit: 200});
     
     for (let i = 0; i < buttons.length; i++) {
         //find the button, click and check for class
@@ -46,101 +49,47 @@ async function uiTest(driver, basePath, loopClickPath, loopPath, counter) {
         console.log('Click Test passed');
         
         //click to open text area, put in "test" and check if text is "test"
-        console.log('loopClickPath: ' + loopClickPath + ' ' + counter);
-        await driver.findElement(By.xpath(basePath + loopClickPath)).click(); 
+        console.log('loopClickPath: ' + clickPath + ' ' + counter);
+        await driver.findElement(By.xpath(basePath + clickPath)).click(); 
         await driver.findElement(By.xpath(baseX + loopPath + buttons[i].inputX)).sendKeys('test' + Key.RETURN);
         vtest = await driver.findElement(By.xpath(baseX + loopPath + buttons[i].textX)).getText();
 
         assert.match(vtest, /test/);
         console.log('Text Test passed');
 
-        //HIER MUSS DANN DIE REKURSION HIN 
+        //recursive function call depending on type of current element and depth of recursion
 
         if (counter == 0 && buttons[i].loopX != '') { 
-            await uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', buttons[i].clickX, buttons[i].loopX, counter + 1); //wenn von Tiefe 0 auf 1, dann nur einfachen loopClickX
+            await uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', buttons[i].clickX, buttons[i].loopClickX, buttons[i].loopX, counter + 1); //wenn von Tiefe 0 auf 1, dann nur loopClickX
         } else if (counter < 2 && buttons[i].loopX != '') {
-
             console.log('Der Funktion wird übergeben: ' + loopClickPath + ' ' + buttons[i].loopClickX + ' ');
-            await uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', loopClickPath + buttons[i].loopClickX, loopPath + buttons[i].loopX, counter + 1); //wenn von Tiefe !=0 tiefer, dann loopClickX zweifach notwendig
+            //await uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', loopClickPath + buttons[i].loopClickX, loopPath + buttons[i].loopX, counter + 1); //wenn von Tiefe !=0 tiefer, dann loopClickX zweifach notwendig
+            await uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', loopClickPath + buttons[i].clickX, loopClickPath + buttons[i].loopClickX, loopPath + buttons[i].loopX, counter + 1); //wenn von Tiefe !=0 tiefer, dann loopClickX zweifach notwendig
         } else {}
             
         //click delete icon and check if element has been deleted (array of applicable elements is empty)
         let delButton = await driver.findElement(By.xpath(baseX + loopPath + buttons[i].deleteX));
         const actions = driver.actions();
         console.log('Delete: '+ baseX + loopPath + buttons[i].deleteX + '    Counter: ' + counter);
-        await actions.move({duration: 200, origin: delButton}).perform();
+        await driver.executeScript("arguments[0].scrollIntoView(true);", delButton); //JS Script to scroll the delete button into view
+        await actions.move({duration: 200, origin: delButton}).perform(); //move cursor to the deleten button and hover over it
         await delButton.click();
         vtest = (await driver.findElements(By.xpath(baseX + loopPath + buttons[i].textX))).length;
 
         assert.strictEqual(vtest, 0);
         console.log('Deletion Test passed');
-
-        /*let textXpath, inputXpath, deleteXpath;
-
-        switch (buttons[i]) {
-            case 'InputButton':
-            case 'OutputButton':
-            case 'TaskButton':
-                inputXpath  = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[2]/input';
-                textXpath   = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[1]/span';
-                deleteXpath = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[2]/div[2]';
-                break;
-            case 'CountLoopButton':
-            case 'HeadLoopButton':
-                inputXpath  = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[1]/div[2]/input';
-                textXpath   = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[1]/div[1]/span';
-                deleteXpath = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[2]/div[2]';
-                break;
-            case 'FootLoopButton':
-                inputXpath  = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[2]/div[1]/div[2]/input';
-                textXpath   = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[2]/div[1]/div[1]/span';
-                deleteXpath = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[2]/div[2]/div[2]';
-                break;
-            case 'BranchButton':
-                inputXpath  = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[1]/div[1]/div[2]/input';
-                textXpath   = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[1]/div[1]/div[1]/span';
-                deleteXpath = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[1]/div[2]/div[2]';
-                break;
-            case 'CaseButton':
-                inputXpath  = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[1]/div[2]/input';
-                textXpath   = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[1]/div[1]/span';
-                deleteXpath = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[2]/div[3]';
-                break;
-            case 'TryCatchButton':
-                inputXpath  = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[4]/div[2]/div[2]/input';
-                textXpath   = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[4]/div[2]/div[1]/span';
-                deleteXpath = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[1]/div[2]';
-                await driver.findElement(By.xpath('/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[4]/div[2]/div[1]')).click(); //extra click to open text area needed
-                break;
-            case 'FunctionButton':
-                inputXpath  = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[2]/input';
-                textXpath   = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[2]/span';
-                deleteXpath = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div/div[1]/div[6]/div/div';
-                break;
-        }     
-        
-        //put in "test" and check if text is "test"
-        await driver.findElement(By.xpath(inputXpath)).sendKeys('test' + Key.RETURN);
-        vtest = await driver.findElement(By.xpath(textXpath)).getText();
-
-        assert.match(vtest, /test/);
-        console.log('Text Test passed');
-
-        //click delete icon and check if element has been deleted (array of applicable elements is empty)
-        await driver.findElement(By.xpath(deleteXpath)).click();
-        vtest = (await driver.findElements(By.xpath(textXpath))).length;
-
-        assert.strictEqual(vtest, 0);
-        console.log('Deletion Test passed');*/
     }
 }
 
 async function selTest() {
-    let driver = await new Builder().forBrowser("chrome").build(); //open Chrome browser
+    //let driver = await new Builder().forBrowser('chrome').build();
+    let driver = await new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options().headless()).build(); //open Chrome browser
+    //let driver = await new Builder().forBrowser('firefox').setFirefoxOptions(new firefox.Options().headless()).build(); //open Firefox browser
+    await driver.manage().window().maximize();
     await driver.get('http://127.0.0.1:5500/build/index.html'); //open the website 
-    await driver.manage().setTimeouts({pageLoad: 5000});
+    await driver.manage().setTimeouts({pageLoad: 1000});
     try {
-        await uiTest(driver, baseX, '', '', 0);
+        await uiTest(driver, baseX, '', '', '', 0);
     } finally {
         //close the browser
         await driver.quit();
