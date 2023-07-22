@@ -7,6 +7,7 @@ const {Builder, By, Key, until, Actions, WebDriver} = require('selenium-webdrive
 const assert = require('assert');
 
 const baseX = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div';
+const baseX_2 = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div';
 
 class Button {
     constructor(id, inputX, textX, deleteX, clickX, loopClickX, loopX) {
@@ -80,6 +81,10 @@ async function caseButtonMenu(driver, loopPath) {
     vtest = (await driver.findElements(By.xpath(baseX + loopPath + '/div[2]/div[3]/div[1]/div/div[1]/div[1]/span'))).length;
     assert.strictEqual(vtest, 1);
     console.log(' Case Add Test passed');
+
+    //delete extra case because it's unneccessary to test
+    vButton = await driver.findElement(By.xpath(baseX + loopPath + '/div[2]/div[3]/div[1]/div/div[2]/div'));
+    await driver.executeScript("arguments[0].click();", vButton);
 }
 
 //main test function iterating over all buttons/elements and calling itself to achieve deeper nesting level
@@ -88,7 +93,7 @@ async function uiTest(driver, basePath, clickPath, loopClickPath, loopPath, coun
         if (buttons[i].id == 'FunctionButton' && counter != 0) return; //if current button is FunctionButton and not root -> skip
 
         //find the button, click and check for class
-        console.log(buttons[i].id + ' ' + 'Counter: ' + counter);
+        console.log(buttons[i].id + ' ' + 'Depth: ' + counter);
         await driver.findElement(By.id(buttons[i].id)).click();
         vtest = await driver.findElement(By.id(buttons[i].id)).getAttribute('class');
 
@@ -112,15 +117,38 @@ async function uiTest(driver, basePath, clickPath, loopClickPath, loopPath, coun
 
         //recursive function call depending on type of current element and depth of recursion
         if (counter == 0 && buttons[i].loopX != '') { 
-            await uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', buttons[i].clickX, buttons[i].loopClickX, buttons[i].loopX, counter + 1); //wenn von Tiefe 0 auf 1
+            await uiTest(driver, baseX_2, buttons[i].clickX, buttons[i].loopClickX, buttons[i].loopX, counter + 1); //wenn von Tiefe 0 auf 1
+            switch (buttons[i].id) {
+                case 'BranchButton': //jump to the second column of the element
+                    await uiTest(driver, baseX_2, '/div[2]/div[2]', '/div[2]/div[2]/div[2]/div', '/div[2]/div[2]/div/div', counter + 1);
+                    break;
+                case 'CaseButton': //jump to additional columns of the element, in this case a number of 2
+                    await uiTest(driver, baseX_2, '/div[2]/div[2]/div[2]', '/div[2]/div[2]/div[3]/div', '/div[2]/div[2]/div[2]/div', counter + 1);
+                    await uiTest(driver, baseX_2, '/div[2]/div[3]/div[2]', '/div[2]/div[3]/div[3]/div', '/div[2]/div[3]/div[2]/div', counter + 1);
+                    break;
+                case 'TryCatchButton': //jump to the second column of the element
+                    await uiTest(driver, baseX_2, '/div[5]/div', '/div[5]/div/div[2]/div', '/div[5]/div/div/div', counter + 1);
+                    break;
+            }
         } else if (counter < 2 && buttons[i].loopX != '') {
-            await uiTest(driver, '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div', loopClickPath + buttons[i].clickX, loopClickPath + buttons[i].loopClickX, loopPath + buttons[i].loopX, counter + 1); //wenn tiefer als 1
-        } else {}
-            
+            await uiTest(driver, baseX_2, loopClickPath + buttons[i].clickX, loopClickPath + buttons[i].loopClickX, loopPath + buttons[i].loopX, counter + 1); //wenn tiefer als 1
+            switch (buttons[i].id) {
+                case 'BranchButton': //jump to the second column of the element
+                    await uiTest(driver, baseX_2, loopClickPath + '/div[2]/div[2]', loopClickPath + '/div[2]/div[2]/div[2]/div', loopPath + '/div[2]/div[2]/div/div', counter + 1);
+                    break;
+                case 'CaseButton': //jump to additional columns of the element, in this case a number of 2
+                    await uiTest(driver, baseX_2, loopClickPath + '/div[2]/div[2]/div[2]', loopClickPath + '/div[2]/div[2]/div[3]/div', loopPath + '/div[2]/div[2]/div[2]/div', counter + 1);
+                    await uiTest(driver, baseX_2, loopClickPath + '/div[2]/div[3]/div[2]', loopClickPath + '/div[2]/div[3]/div[3]/div', loopPath + '/div[2]/div[3]/div[2]/div', counter + 1);
+                    break;
+                case 'TryCatchButton': //jump to the second column of the element
+                    await uiTest(driver, baseX_2, loopClickPath + '/div[5]/div', loopClickPath + '/div[5]/div/div[2]/div', loopPath + '/div[5]/div/div/div', counter + 1);
+                    break;
+            }
+        } 
+
         //click delete icon and check if element has been deleted (array of applicable elements is empty)
         vButton = await driver.findElement(By.xpath(baseX + loopPath + buttons[i].deleteX));
         await driver.executeScript("arguments[0].click();", vButton);
-
         vtest = (await driver.findElements(By.xpath(baseX + loopPath + buttons[i].textX))).length;
 
         assert.strictEqual(vtest, 0);
@@ -133,9 +161,10 @@ async function selTest() {
     let driver = await new Builder().forBrowser('chrome').build();
     //let driver = await new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options().headless()).build(); //open Chrome browser headless
     //let driver = await new Builder().forBrowser('firefox').setFirefoxOptions(new firefox.Options().headless()).build(); //open Firefox browser headless
-    await driver.manage().window().maximize();
+    //await driver.manage().window().maximize(); //maximize window
+    await driver.manage().window().setRect({width:1600, height: 900}); //set window size to 1600*900
     await driver.get('http://127.0.0.1:5500/build/index.html'); //open the website 
-    await driver.manage().setTimeouts({implicit: 100}, {pageLoad: 500}, {script: 100});
+    //await driver.manage().setTimeouts({implicit: 100}, {pageLoad: 500}, {script: 500});
     try {
         await uiTest(driver, baseX, '', '', '', 0);
     } finally {
