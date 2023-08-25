@@ -1,11 +1,12 @@
 require('chromedriver');
 require('geckodriver');
 
-const chrome = require('selenium-webdriver/chrome'); 
-const firefox = require('selenium-webdriver/firefox');
-const {Builder, By, Key, until, Actions, WebDriver} = require('selenium-webdriver');
+const chrome = require('selenium-webdriver/chrome');   /* required if you want */
+const firefox = require('selenium-webdriver/firefox'); /* to test in headless mode */
+const {Builder, By, Key} = require('selenium-webdriver');
 const assert = require('assert');
 
+//base paths needed for every xpath interaction
 const baseX = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[1]/div';
 const baseX_2 = '/html/body/main/div[1]/div[4]/div[1]/div[1]/div[2]/div';
 
@@ -158,18 +159,19 @@ async function uiTest(driver, basePath, clickPath, loopClickPath, loopPath, coun
 
 //main function to start a browser and call our test function
 async function selTest() {
+    //console.time('Execution Time'); //start timer to measure test execution time
     let driver = await new Builder().forBrowser('chrome').build();
     //let driver = await new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options().headless()).build(); //open Chrome browser headless
     //let driver = await new Builder().forBrowser('firefox').setFirefoxOptions(new firefox.Options().headless()).build(); //open Firefox browser headless
     //await driver.manage().window().maximize(); //maximize window
-    await driver.manage().window().setRect({width:1600, height: 900}); //set window size to 1600*900
-    await driver.get('http://127.0.0.1:5500/build/index.html'); //open the website 
-    //await driver.manage().setTimeouts({implicit: 100}, {pageLoad: 500}, {script: 500});
+    await driver.manage().window().setRect({width: 1600, height: 900}); //set window size to 1600*900
+    await driver.get('http://127.0.0.1:5500/build/index.html'); //open the website - you may need to use 'http://localhost:8081/' instead, depending on how you host the website locally
+
     try {
         await uiTest(driver, baseX, '', '', '', 0);
     } finally {
-        //close the browser
-        await driver.quit();
+        //console.timeEnd('Execution Time'); //stop timer to measure test execution time
+        await driver.quit(); //close the browser
     }
 }
 

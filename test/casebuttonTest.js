@@ -1,6 +1,6 @@
 require("chromedriver");
 
-const { Builder, By, Key, until} = require("selenium-webdriver");
+const { Builder, By, Key} = require("selenium-webdriver");
 const assert = require("assert");
 
 async function browserChrome() {
