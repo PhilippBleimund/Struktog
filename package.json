@@ -3,7 +3,7 @@
   "version": "1.3.0",
   "description": "Webprogramm zur Erstellung von Struktogrammen sowie zur Umwandlung dessen in Code (Python, PHP, Javascript)",
   "scripts": {
-    "test": "node test/footloopbuttonTest.js",
+    "test": "node test/buttontest.js",
     "watch": "webpack serve",
     "build": "webpack --mode production",
     "chromium": "webpack serve --open chromium"
