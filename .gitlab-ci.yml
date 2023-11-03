@@ -31,9 +31,9 @@ deploy:
   image: alpine:latest
   stage: deploymaster
   script:
-    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    #- 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    - apk add --no-cache openssh
     - eval $(ssh-agent -s)
-    #- apk add --no-cache openssh
     - echo "$DEPLOY_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
