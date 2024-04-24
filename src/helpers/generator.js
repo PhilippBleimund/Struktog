@@ -185,7 +185,7 @@ export function generateFooter () {
   })
 
   const text = document.createElement('div')
-  text.appendChild(document.createTextNode('Didaktik der Informatik der TU Dresden'))
+  text.appendChild(document.createTextNode('DDI Education - Thiemo Leonhardt'))
 
   const hash = document.createElement('div')
   hash.appendChild(document.createTextNode(__COMMIT_HASH__))

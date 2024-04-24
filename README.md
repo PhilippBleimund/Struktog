@@ -1,7 +1,7 @@
 # Struktogrammeditor
 
 Freies offenes Webprogramm zur Erstellung von Struktogrammen sowie zur Umwandlung dessen in Code (Python, PHP, Java).
-Online nutzbar unter [https://dditools.inf.tu-dresden.de/struktog/](https://dditools.inf.tu-dresden.de/struktog/) oder als [Download](#download) einfach die index.html öffnen.
+Online nutzbar unter [https://ddi.education/struktog/](https://ddi.education/struktog/) oder als [Download](#download) einfach die index.html öffnen.
 Freie Software lebt von [Mitarbeit](#entwicklung). Gerne Kontakt aufnehmen und mithelfen.
 
 ## Konfiguration
