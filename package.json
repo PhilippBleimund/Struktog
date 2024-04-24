@@ -20,7 +20,7 @@
     "Sören Schwab",
     "Tom-Maurice Schreiber"
   ],
-  "license": "aGPL 3.0",
+  "license": "SEE LICENSE IN LICENCE",
   "devDependencies": {
     "@babel/core": "^7.13.16",
     "babel-core": "^6.26.3",

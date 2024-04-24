@@ -5,7 +5,7 @@ stages:
   - ontags
 
 packen:
-  image: node:fermium
+  image: node:hydrogen
   stage: build
   script:
     - PATH="./node_modules/.bin:$PATH"

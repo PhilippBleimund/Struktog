@@ -54,10 +54,11 @@ Thiemo Leonhardt
 Klaus Ramm,
 Tom-Maurice Schreiber
 Sören Schwab
+Georg Schlorf
 
 # Lizenz
 
-MIT
+aGPL 3
 
 # Entwicklung
 
