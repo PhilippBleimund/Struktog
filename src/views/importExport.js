@@ -919,10 +919,6 @@ export class ImportExport {
     const exportFileDefaultName =
         'struktog_' + new Date(Date.now()).toJSON().substring(0, 10) + '.png'
 
-    const divStructogram = document.getElementById('structogram')
-    divStructogram.style.borderRight = '1px solid black'
-    divStructogram.style.borderBottom = '1px solid black'
-
     htmlToImage.toPng(document.getElementById('structogram'), {
       style: {
       }
