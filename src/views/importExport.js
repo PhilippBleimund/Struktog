@@ -14,7 +14,7 @@
  You should have received a copy of the GNU Affero General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
+import * as htmlToImage from 'html-to-image'
 export class ImportExport {
   constructor (presenter, domRoot) {
     this.presenter = presenter
@@ -65,7 +65,8 @@ export class ImportExport {
     )
     exportDiv.setAttribute('data-tooltip', 'Bildexport')
     exportDiv.addEventListener('click', () =>
-      this.exportAsPng(this.presenter.getModelTree())
+      this.exportAsPngWithPackage()
+      // this.exportAsPng(this.presenter.getModelTree())
     )
     document.getElementById('optionButtons').appendChild(exportDiv)
   }
@@ -908,6 +909,37 @@ export class ImportExport {
     linkElement.setAttribute('href', canvas.toDataURL('image/png'))
     linkElement.setAttribute('download', exportFileDefaultName)
     linkElement.click()
+  }
+
+  /**
+   * Create a PNG file of the current model with htmtToImage and append a button for downloading
+   */
+  exportAsPngWithPackage () {
+    // define filename
+    const exportFileDefaultName =
+        'struktog_' + new Date(Date.now()).toJSON().substring(0, 10) + '.png'
+
+    const divStructogram = document.getElementById('structogram')
+    divStructogram.style.borderRight = '1px solid black'
+    divStructogram.style.borderBottom = '1px solid black'
+
+    htmlToImage.toPng(document.getElementById('structogram'), {
+      style: {
+      }
+    })
+      .then(function (dataUrl) {
+        // let img = new Image()
+        // img.src = dataUrl
+        // document.body.appendChild(img);
+        // create button / anker element
+        const linkElement = document.createElement('a')
+        linkElement.setAttribute('href', dataUrl)
+        linkElement.setAttribute('download', exportFileDefaultName)
+        linkElement.click()
+      })
+      .catch(function (error) {
+        console.error('oops, something went wrong!', error)
+      })
   }
 
   resetButtons () {}
