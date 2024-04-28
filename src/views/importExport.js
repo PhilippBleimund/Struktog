@@ -69,6 +69,12 @@ export class ImportExport {
       // this.exportAsPng(this.presenter.getModelTree())
     )
     document.getElementById('optionButtons').appendChild(exportDiv)
+
+    // ugly fix for HTMLToImage package
+    // first creation of the image misses the lines in the image
+    htmlToImage.toPng(document.getElementById('structogram'))
+      .then(function (dataUrl) {
+      })
   }
 
   /**
@@ -915,21 +921,12 @@ export class ImportExport {
    * Create a PNG file of the current model with htmtToImage and append a button for downloading
    */
   exportAsPngWithPackage () {
-    // define filename
-    const exportFileDefaultName =
-        'struktog_' + new Date(Date.now()).toJSON().substring(0, 10) + '.png'
-
-    htmlToImage.toPng(document.getElementById('structogram'), {
-      style: {
-      }
-    })
+    htmlToImage.toPng(document.getElementById('structogram'))
       .then(function (dataUrl) {
-        // let img = new Image()
-        // img.src = dataUrl
-        // document.body.appendChild(img);
-        // create button / anker element
         const linkElement = document.createElement('a')
         linkElement.setAttribute('href', dataUrl)
+        // define filename
+        const exportFileDefaultName = 'struktog_' + new Date(Date.now()).toJSON().substring(0, 10) + '.png'
         linkElement.setAttribute('download', exportFileDefaultName)
         linkElement.click()
       })
