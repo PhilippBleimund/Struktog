@@ -165,7 +165,7 @@ export function generateFooter () {
     // create link
     const devLink = document.createElement('a')
     devLink.appendChild(document.createTextNode('stable version'))
-    devLink.setAttribute('href', 'https://dditools.inf.tu-dresden.de/struktog/')
+    devLink.setAttribute('href', 'https://ddi.education/struktog/')
     footerSpan.appendChild(devLink)
     footerSpan.appendChild(document.createTextNode(' | '))
   }
@@ -175,11 +175,11 @@ export function generateFooter () {
     'hand'
   )
   sourceLink.appendChild(document.createTextNode('Source code'))
-  sourceLink.setAttribute('href', 'https://gitlab.com/ddi-tu-dresden/cs-school-tools/struktog')
+  sourceLink.setAttribute('href', 'https://gitlab.com/dev-ddi/cs-school-tools/struktog')
   sourceLink.setAttribute('data-tooltip', 'Gitlab Repository')
   sourceLink.addEventListener('click', () => {
     window.open(
-      'https://gitlab.com/ddi-tu-dresden/cs-school-tools/struktog',
+      'https://gitlab.com/dev-ddi/cs-school-tools/struktog',
       '_blank'
     )
   })
@@ -247,7 +247,7 @@ export function generateInfoButton (domNode) {
   infoButtonDiv.setAttribute('data-tooltip', 'Gitlab Repository')
   infoButtonDiv.addEventListener('click', () => {
     window.open(
-      'https://gitlab.com/ddi-tu-dresden/cs-school-tools/struktog',
+      'https://gitlab.com/dev-ddi/cs-school-tools/struktog',
       '_blank'
     )
   })
