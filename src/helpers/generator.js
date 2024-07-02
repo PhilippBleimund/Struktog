@@ -185,10 +185,24 @@ export function generateFooter () {
   })
 
   const text = document.createElement('div')
-  text.appendChild(document.createTextNode('DDI Education - Thiemo Leonhardt'))
+  text.appendChild(document.createTextNode('Maintainer Thiemo Leonhardt'))
 
   const hash = document.createElement('div')
   hash.appendChild(document.createTextNode(__COMMIT_HASH__))
+
+  const impressumLink = document.createElement('div')
+  impressumLink.classList.add(
+    'hand'
+  )
+  impressumLink.appendChild(document.createTextNode('Impressum'))
+  impressumLink.setAttribute('href', 'https://ddi.education/impressum')
+  impressumLink.setAttribute('data-tooltip', 'Impressum')
+  impressumLink.addEventListener('click', () => {
+    window.open(
+      'https://ddi.education/impressum',
+      '_self'
+    )
+  })
 
   footerDiv.appendChild(footerSpan)
   footerSpan.appendChild(sourceLink)
@@ -196,6 +210,8 @@ export function generateFooter () {
   footerSpan.appendChild(text)
   footerSpan.appendChild(document.createTextNode('|'))
   footerSpan.appendChild(hash)
+  footerSpan.appendChild(document.createTextNode('|'))
+  footerSpan.appendChild(impressumLink)
 }
 
 export function generateResetButton (presenter, domNode) {
