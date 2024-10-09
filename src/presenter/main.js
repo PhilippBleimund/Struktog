@@ -162,6 +162,18 @@ export class Presenter {
           }
         }
         break
+      case 'BlockCallButton':
+        this.nextInsertElement = {
+          id: guidGenerator(),
+          type: 'OutputNode',
+          text: '',
+          followElement: {
+            id: guidGenerator(),
+            type: 'InsertNode',
+            followElement: null
+          }
+        }
+        break
       case 'TaskButton':
         this.nextInsertElement = {
           id: guidGenerator(),
