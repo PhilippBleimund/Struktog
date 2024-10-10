@@ -710,7 +710,6 @@ export class Structogram {
         }
         case 'InputNode':
         case 'OutputNode':
-        case 'BlockCallNode':
         case 'TaskNode': {
           const divTaskNode = document.createElement('div')
           divTaskNode.classList.add('fixedHeight', 'container')
@@ -731,6 +730,39 @@ export class Structogram {
           return elemArray.concat(
             this.renderElement(subTree.followElement, parentIsMoving, noInsert)
           )
+        }
+        case 'BlockCallNode':{
+          const divTaskNode = document.createElement('div')
+          divTaskNode.classList.add('fixedHeight', 'container')
+         
+          // Create the vertical line
+          const verticalLineLeft = document.createElement('div');
+          verticalLineLeft.classList.add('vertical-line-left');
+          const verticalLineRight = document.createElement('div');
+          verticalLineRight.classList.add('vertical-line-right');
+
+          const textDiv = this.createTextDiv(
+            subTree.type,
+            subTree.text,
+            subTree.id
+          )
+
+          textDiv.style.marginLeft = '2em'
+          textDiv.style.marginRight = '2em'
+          const optionDiv = this.createOptionDiv(subTree.type, subTree.id)
+          divTaskNode.appendChild(verticalLineLeft)
+          divTaskNode.appendChild(verticalLineRight)
+          divTaskNode.appendChild(textDiv)
+          divTaskNode.appendChild(optionDiv)
+
+          // container.classList.add('line');
+          container.appendChild(divTaskNode)
+          elemArray.push(container)
+
+          return elemArray.concat(
+            this.renderElement(subTree.followElement, parentIsMoving, noInsert)
+          )
+
         }
         case 'BranchNode': {
           // //container.classList.add('fix');
