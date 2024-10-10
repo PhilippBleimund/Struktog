@@ -218,7 +218,7 @@ class Config {
           icon: 'taskIcon',
           color: 'rgb(253, 237, 206)'
         },
-        BlockCallButton: {
+        BlockCallNode: {
           use: true,
           id: 'BlockCallButton',
           text: 'Blockaufruf',
