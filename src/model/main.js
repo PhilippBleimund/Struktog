@@ -369,6 +369,7 @@ class Model {
           case 'InsertNode':
           case 'InputNode':
           case 'OutputNode':
+          case 'BlockCallNode':
           case 'TaskNode':
           case 'InsertCase':
             return this.getElementInTree(uid, subTree.followElement)
