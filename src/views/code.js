@@ -619,6 +619,7 @@ export class CodeView {
           case 'InsertNode':
           case 'InputNode':
           case 'OutputNode':
+          case 'BlockCallNode':
           case 'TaskNode':
             return false || this.checkForUntranslatable(subTree.followElement, nodeType)
           case 'BranchNode':
@@ -702,6 +703,19 @@ export class CodeView {
           outputPost.classList.add('keyword')
           outputPost.appendChild(document.createTextNode(this.translationMap[lang].OutputNode.post))
           elemSpan.appendChild(outputPost)
+          return [elemSpan].concat(this.transformToCode(subTree.followElement, indentLevel, lang))
+        }
+        case 'BlockCallNode':
+        {
+          const taskPre = document.createElement('span')
+          taskPre.classList.add('keyword')
+          taskPre.appendChild(document.createTextNode(this.addIndentations(indentLevel) + this.translationMap[lang].BlockCalNode.pre))
+          elemSpan.appendChild(taskPre)
+          elemSpan.appendChild(text)
+          const taskPost = document.createElement('span')
+          taskPost.classList.add('keyword')
+          taskPost.appendChild(document.createTextNode(this.translationMap[lang].BlockCallNode.post))
+          elemSpan.appendChild(taskPost)
           return [elemSpan].concat(this.transformToCode(subTree.followElement, indentLevel, lang))
         }
         case 'TaskNode':
