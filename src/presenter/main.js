@@ -439,6 +439,7 @@ export class Presenter {
     const deleteElem = this.model.getElementInTree(uid, this.model.getTree())
     switch (deleteElem.type) {
       case 'TaskNode':
+      case 'BlockCallNode':
       case 'InputNode':
       case 'OutputNode':
         this.removeNodeFromTree(uid)
