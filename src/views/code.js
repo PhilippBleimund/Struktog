@@ -33,6 +33,10 @@ export class CodeView {
           pre: 'print(',
           post: ')\n'
         },
+        BlockCallNode: {
+          pre: '',
+          post: '\n'
+        },
         TaskNode: {
           pre: '',
           post: '\n'
@@ -89,6 +93,10 @@ export class CodeView {
           pre: 'print(',
           post: ')\n'
         },
+        BlockCallNode: {
+          pre: '',
+          post: '\n'
+        },
         TaskNode: {
           pre: '',
           post: '\n'
@@ -143,6 +151,10 @@ export class CodeView {
         },
         OutputNode: {
           pre: 'echo ',
+          post: ';\n'
+        },
+        BlockCallNode: {
+          pre: '',
           post: ';\n'
         },
         TaskNode: {
@@ -201,6 +213,10 @@ export class CodeView {
           pre: 'System.out.println(',
           post: ');\n'
         },
+        BlockCallNode: {
+          pre: '',
+          post: ';\n'
+        },
         TaskNode: {
           pre: '',
           post: ';\n'
@@ -256,6 +272,10 @@ export class CodeView {
         OutputNode: {
           pre: 'Console.WriteLine(',
           post: ');\n'
+        },
+        BlockCallNode: {
+          pre: '',
+          post: ';\n'
         },
         TaskNode: {
           pre: '',
@@ -313,6 +333,10 @@ export class CodeView {
           pre: 'std::cout << ',
           post: ';\n'
         },
+        BlockCallNode: {
+          pre: '',
+          post: ';\n'
+        },
         TaskNode: {
           pre: '',
           post: ';\n'
@@ -368,6 +392,10 @@ export class CodeView {
         OutputNode: {
           pre: 'printf(',
           post: ');\n'
+        },
+        BlockCallNode: {
+          pre: '',
+          post: ';\n'
         },
         TaskNode: {
           pre: '',
