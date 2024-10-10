@@ -165,7 +165,7 @@ export class Presenter {
       case 'BlockCallButton':
         this.nextInsertElement = {
           id: guidGenerator(),
-          type: 'TaskNode',
+          type: 'BlockCallNode',
           text: 'Blockaufruf',
           followElement: {
             id: guidGenerator(),
