@@ -27,6 +27,7 @@ export class Structogram {
     this.buttonList = [
       'InputNode',
       'OutputNode',
+      'BlockCallNode',
       'TaskNode',
       'CountLoopNode',
       'HeadLoopNode',
@@ -709,6 +710,7 @@ export class Structogram {
         }
         case 'InputNode':
         case 'OutputNode':
+        case 'BlockCallNode':
         case 'TaskNode': {
           const divTaskNode = document.createElement('div')
           divTaskNode.classList.add('fixedHeight', 'container')
@@ -1629,6 +1631,7 @@ export class Structogram {
 
         case 'InputNode':
         case 'OutputNode':
+        case 'BlockCallNode':
         case 'TaskNode': {
           const div = document.createElement('div')
           div.id = subTree.id
