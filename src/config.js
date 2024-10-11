@@ -44,7 +44,7 @@ class Config {
         use: true,
         id: 'BlockCallButton',
         text: 'Blockaufruf',
-        icon: 'taskIcon',
+        icon: 'blockCallIcon',
         color: 'rgb(253, 237, 206)'
       },
       TaskNode: {
@@ -134,7 +134,7 @@ class Config {
           use: true,
           id: 'BlockCallButton',
           text: 'Blockaufruf',
-          icon: 'taskIcon',
+          icon: 'blockCallIcon',
           color: 'rgb(253, 237, 206)'
         },
         TaskNode: {
@@ -222,7 +222,7 @@ class Config {
           use: true,
           id: 'BlockCallButton',
           text: 'Blockaufruf',
-          icon: 'taskIcon',
+          icon: 'blockCallIcon',
           color: 'rgb(253, 237, 206)'
         },
         TaskNode: {
@@ -310,7 +310,7 @@ class Config {
           use: true,
           id: 'BlockCallButton',
           text: 'Blockaufruf',
-          icon: 'taskIcon',
+          icon: 'blockCallIcon',
           color: 'rgb(253, 237, 206)'
         },
         TaskNode: {
