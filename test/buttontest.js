@@ -24,6 +24,7 @@ class Button {
 //                                      id                  inputX                                  textX                                   deleteX                         clickX                      loopClickX                      loopX
 const inputButton = new Button(     'InputButton',      '/div[1]/div[2]/input',                 '/div[1]/div[1]/span',                  '/div[2]/div[2]',               '',                         '',                             ''                          );
 const outputButton = new Button(    'OutputButton',     '/div[1]/div[2]/input',                 '/div[1]/div[1]/span',                  '/div[2]/div[2]',               '',                         '',                             ''                          );
+const blockCallButton = new Button(    'BlockCallButton',     '/div[1]/div[2]/input',                 '/div[1]/div[1]/span',                  '/div[2]/div[2]',               '',                         '',                             ''                          );
 const taskButton = new Button(      'TaskButton',       '/div[1]/div[2]/input',                 '/div[1]/div[1]/span',                  '/div[2]/div[2]',               '',                         '',                             ''                          );
 const countLoopButton = new Button( 'CountLoopButton',  '/div[1]/div[1]/div[2]/input',          '/div[1]/div[1]/div[1]/span',           '/div[1]/div[2]/div[2]',        '/div[2]/div',              '/div[2]/div/div[2]/div',       '/div[2]/div/div/div'       );
 const headLoopButton = new Button(  'HeadLoopButton',   '/div[1]/div[1]/div[2]/input',          '/div[1]/div[1]/div[1]/span',           '/div[1]/div[2]/div[2]',        '/div[2]/div',              '/div[2]/div/div[2]/div',       '/div[2]/div/div/div'       );
@@ -33,7 +34,7 @@ const caseButton = new Button(      'CaseButton',       '/div[1]/div[1]/div[2]/i
 const tryCatchButton = new Button(  'TryCatchButton',   '/div[4]/div[2]/div[2]/input',          '/div[4]/div[2]/div[1]/span',           '/div[1]/div[1]/div[2]',        '/div[2]/div',              '/div[2]/div/div[2]/div',       '/div[2]/div/div/div'       );
 const functionButton = new Button(  'FunctionButton',   '/div[1]/div[2]/input',                 '/div[1]/div[2]/span',                  '/div[1]/div[6]/div/div',       '/div[2]/div',              '/div[2]/div/div[2]/div',       '/div[2]/div/div/div'       );
 
-let buttons = [inputButton, outputButton, taskButton, countLoopButton, headLoopButton, footLoopButton, branchButton, caseButton, tryCatchButton, functionButton];
+let buttons = [inputButton, outputButton, blockCallButton, taskButton, countLoopButton, headLoopButton, footLoopButton, branchButton, caseButton, tryCatchButton, functionButton];
 let vButton, vtest;
 
 //function to check specifically for the parameter of the FunctionButton

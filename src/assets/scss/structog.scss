@@ -334,3 +334,20 @@ strong {
 #structogram {
   border-right: 1px solid black
 }
+
+.vertical-line-left {
+    width: 2px; /* Adjust width as needed */
+    background-color: #000; /* Adjust color as needed */
+    height: 100%; /* Use a fixed height or set to match text height */
+    position: absolute; /* Positioning */
+    left: 1em; /* Adjust to create space from the text */
+    top: 0; /* Align with the top of the parent container */
+}
+.vertical-line-right {
+    width: 2px; /* Adjust width as needed */
+    background-color: #000; /* Adjust color as needed */
+    height: 100%; /* Use a fixed height or set to match text height */
+    position: absolute; /* Positioning */
+    right: 1em; /* Adjust to create space from the text */
+    top: 0; /* Align with the top of the parent container */
+}

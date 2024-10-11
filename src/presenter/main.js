@@ -162,6 +162,18 @@ export class Presenter {
           }
         }
         break
+      case 'BlockCallButton':
+        this.nextInsertElement = {
+          id: guidGenerator(),
+          type: 'BlockCallNode',
+          text: 'Blockaufruf',
+          followElement: {
+            id: guidGenerator(),
+            type: 'InsertNode',
+            followElement: null
+          }
+        }
+        break
       case 'TaskButton':
         this.nextInsertElement = {
           id: guidGenerator(),
@@ -427,6 +439,7 @@ export class Presenter {
     const deleteElem = this.model.getElementInTree(uid, this.model.getTree())
     switch (deleteElem.type) {
       case 'TaskNode':
+      case 'BlockCallNode':
       case 'InputNode':
       case 'OutputNode':
         this.removeNodeFromTree(uid)
