@@ -13,6 +13,7 @@ header {
 body {
   font: 100% $font-stack;
   max-width: 100vw;
+  width: 1200px; // changes the width of everything
   margin: 0 auto;
   display: flex;
   flex-direction: column;
