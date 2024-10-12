@@ -84,8 +84,17 @@ export class Structogram {
         document.getElementById('editorContent').style.width = newWidth + 'px'  
         // adjust margin if the user wants it wider than the body
         if (newWidth > document.body.clientWidth){
-          document.getElementById('editorContent').style.marginLeft = -(newWidth - document.body.clientWidth) / 2 + 'px'  
-          document.getElementById('editorContent').style.marginRight = -(newWidth - document.body.clientWidth) / 2 + 'px'  
+          let marginLeft = (newWidth - document.body.clientWidth) / 2 
+          let marginRight = (newWidth - document.body.clientWidth) / 2 
+          
+          const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+          if (marginLeft > (vw - document.body.clientWidth) / 2){
+            marginRight = marginRight + (marginLeft - (vw - document.body.clientWidth) / 2)
+            marginLeft = marginLeft - (marginLeft - (vw - document.body.clientWidth) / 2)
+          }
+
+          document.getElementById('editorContent').style.marginLeft = -marginLeft + 'px'  
+          document.getElementById('editorContent').style.marginRight = -marginRight + 'px'  
         }
       }else{
         inputField.style.color = 'red'
