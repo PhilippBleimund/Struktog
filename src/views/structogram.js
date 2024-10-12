@@ -71,13 +71,13 @@ export class Structogram {
     const inputField = document.createElement('input');
     inputField.setAttribute('type', 'number');
     inputField.setAttribute('id', 'width-input');
-    inputField.setAttribute('min', '500');
+    inputField.setAttribute('min', '300');
     inputField.setAttribute('max', '2000');
-    inputField.setAttribute('value', '1200');
+    inputField.setAttribute('value', document.body.clientWidth);
     inputField.addEventListener('input', () => {
       const newWidth = inputField.value
       
-      if (newWidth >= 500 && newWidth <= 2000) {
+      if (newWidth >= 300 && newWidth <= 2000) {
         inputField.style.color = 'black'
         document.getElementById('editorContent').style.marginLeft = '0px'  
         document.getElementById('editorContent').style.marginRight = '0px'  
@@ -104,7 +104,7 @@ export class Structogram {
 
     const currentWidth = document.createElement('span')
     currentWidth.setAttribute('id', 'current-width')
-    currentWidth.textContent = 'Current width: '
+    currentWidth.textContent = 'aktuelle Größe: '
     editorHeadline.appendChild(currentWidth)
 
     const optionsContainer1 = document.createElement('div')
