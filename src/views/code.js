@@ -709,7 +709,7 @@ export class CodeView {
         {
           const taskPre = document.createElement('span')
           taskPre.classList.add('keyword')
-          taskPre.appendChild(document.createTextNode(this.addIndentations(indentLevel) + this.translationMap[lang].BlockCalNode.pre))
+          taskPre.appendChild(document.createTextNode(this.addIndentations(indentLevel) + this.translationMap[lang].BlockCallNode.pre))
           elemSpan.appendChild(taskPre)
           elemSpan.appendChild(text)
           const taskPost = document.createElement('span')
