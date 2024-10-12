@@ -353,3 +353,13 @@ strong {
     right: 1em; /* Adjust to create space from the text */
     top: 0; /* Align with the top of the parent container */
 }
+
+input[type="number"] {
+  padding: 2px;
+  width: 80px;
+  float: right;
+}
+
+#current-width {
+  float: right;
+}
