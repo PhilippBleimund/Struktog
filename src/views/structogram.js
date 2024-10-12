@@ -76,9 +76,17 @@ export class Structogram {
     inputField.setAttribute('value', '1200');
     inputField.addEventListener('input', () => {
       const newWidth = inputField.value
+      
       if (newWidth >= 500 && newWidth <= 2000) {
         inputField.style.color = 'black'
-        document.getElementById('editorContent').style.maxWidth = newWidth + 'px'  
+        document.getElementById('editorContent').style.marginLeft = '0px'  
+        document.getElementById('editorContent').style.marginRight = '0px'  
+        document.getElementById('editorContent').style.width = newWidth + 'px'  
+        // adjust margin if the user wants it wider than the body
+        if (newWidth > document.body.clientWidth){
+          document.getElementById('editorContent').style.marginLeft = -(newWidth - document.body.clientWidth) / 2 + 'px'  
+          document.getElementById('editorContent').style.marginRight = -(newWidth - document.body.clientWidth) / 2 + 'px'  
+        }
       }else{
         inputField.style.color = 'red'
       }

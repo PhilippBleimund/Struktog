@@ -19,7 +19,7 @@ body {
   flex-direction: column;
   justify-content: center;
   background-color: rgb(250, 250, 250);
-  overflow-x: hidden;
+  overflow-x: visible; 
 
   main {
     flex: 1;
@@ -138,9 +138,11 @@ strong {
 }
 
 .columnEditorStructogram {
-  flex-basis: 100%;
   margin: 0.2em;
-  max-width: 1200px; // change this for the structogram size
+  width: 1200px;
+  position: relative;
+  margin-left: -0px;
+  margin-right: 0px;
 }
 
 .columnEditorCode {
@@ -158,9 +160,8 @@ strong {
 
 @media screen and (min-width: 1200px) {
   .columnEditorStructogram {
-    flex-basis: 100%;
+    //flex-basis: 100%;
   }
-
   .columnEditorCode {
     padding-top: 0;
     margin: 0 1em;
