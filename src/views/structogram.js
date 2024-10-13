@@ -112,7 +112,7 @@ export class Structogram {
     inputWidthContainer.appendChild(inputField)
 
 
-    editorHeadline.appendChild(inputWidthContainer)
+    divEditorHeadline.appendChild(inputWidthContainer)
 
     const optionsContainer1 = document.createElement('div')
     optionsContainer1.id = 'struktoOptions1'
