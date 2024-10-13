@@ -143,6 +143,7 @@ strong {
   position: relative;
   margin-left: -0px;
   margin-right: 0px;
+  position: top;
 }
 
 .columnEditorCode {
@@ -150,6 +151,7 @@ strong {
   padding-top: 1em;
   flex-grow: 0;
   width: 100%;
+  position: bottom;
 }
 
 @media screen and (min-width: 480px) {
@@ -361,6 +363,10 @@ input[type="number"] {
   float: right;
 }
 
-#current-width {
-  float: right;
+.inputWidthOptions {
+  position: top;
+  display: flex !important;
+  height: 1.02em;
+  flex: auto;
+  justify-content: flex-end;
 }

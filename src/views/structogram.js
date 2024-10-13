@@ -68,6 +68,15 @@ export class Structogram {
     editorHeadline.appendChild(document.createTextNode('Editor:'))
     divEditorHeadline.appendChild(editorHeadline)
 
+    const inputWidthContainer = document.createElement('div')
+    inputWidthContainer.id = 'inputWidthOptions'
+    inputWidthContainer.classList.add('inputWidthOptions')
+    
+    const currentWidth = document.createElement('span')
+    currentWidth.setAttribute('id', 'current-width')
+    currentWidth.textContent = 'aktuelle Größe: '
+    inputWidthContainer.appendChild(currentWidth)
+
     const inputField = document.createElement('input');
     inputField.setAttribute('type', 'number');
     inputField.setAttribute('id', 'width-input');
@@ -100,12 +109,10 @@ export class Structogram {
         inputField.style.color = 'red'
       }
     })
-    editorHeadline.appendChild(inputField)
+    inputWidthContainer.appendChild(inputField)
 
-    const currentWidth = document.createElement('span')
-    currentWidth.setAttribute('id', 'current-width')
-    currentWidth.textContent = 'aktuelle Größe: '
-    editorHeadline.appendChild(currentWidth)
+
+    editorHeadline.appendChild(inputWidthContainer)
 
     const optionsContainer1 = document.createElement('div')
     optionsContainer1.id = 'struktoOptions1'
