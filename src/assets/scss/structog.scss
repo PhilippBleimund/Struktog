@@ -13,12 +13,13 @@ header {
 body {
   font: 100% $font-stack;
   max-width: 100vw;
+  width: 1200px; // changes the width of everything
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   background-color: rgb(250, 250, 250);
-  overflow-x: hidden;
+  overflow-x: visible; 
 
   main {
     flex: 1;
@@ -137,8 +138,12 @@ strong {
 }
 
 .columnEditorStructogram {
-  flex-basis: 100%;
   margin: 0.2em;
+  width: 1200px;
+  position: relative;
+  margin-left: -0px;
+  margin-right: 0px;
+  position: top;
 }
 
 .columnEditorCode {
@@ -146,6 +151,7 @@ strong {
   padding-top: 1em;
   flex-grow: 0;
   width: 100%;
+  position: bottom;
 }
 
 @media screen and (min-width: 480px) {
@@ -156,9 +162,8 @@ strong {
 
 @media screen and (min-width: 1200px) {
   .columnEditorStructogram {
-    flex-basis: 100%;
+    //flex-basis: 100%;
   }
-
   .columnEditorCode {
     padding-top: 0;
     margin: 0 1em;
@@ -333,4 +338,35 @@ strong {
 
 #structogram {
   border-right: 1px solid black
+}
+
+.vertical-line-left {
+    width: 2px; /* Adjust width as needed */
+    background-color: #000; /* Adjust color as needed */
+    height: 100%; /* Use a fixed height or set to match text height */
+    position: absolute; /* Positioning */
+    left: 1em; /* Adjust to create space from the text */
+    top: 0; /* Align with the top of the parent container */
+}
+.vertical-line-right {
+    width: 2px; /* Adjust width as needed */
+    background-color: #000; /* Adjust color as needed */
+    height: 100%; /* Use a fixed height or set to match text height */
+    position: absolute; /* Positioning */
+    right: 1em; /* Adjust to create space from the text */
+    top: 0; /* Align with the top of the parent container */
+}
+
+input[type="number"] {
+  padding: 2px;
+  width: 80px;
+  float: right;
+}
+
+.inputWidthOptions {
+  position: top;
+  display: flex !important;
+  height: 1.02em;
+  flex: auto;
+  justify-content: flex-end;
 }

@@ -40,6 +40,13 @@ class Config {
         icon: 'taskIcon',
         color: 'rgb(253, 237, 206)'
       },
+      BlockCallNode: {
+        use: true,
+        id: 'BlockCallButton',
+        text: 'Blockaufruf',
+        icon: 'blockCallIcon',
+        color: 'rgb(253, 237, 206)'
+      },
       TaskNode: {
         use: true,
         id: 'TaskButton',
@@ -123,6 +130,13 @@ class Config {
           icon: 'taskIcon',
           color: 'rgb(253, 237, 206)'
         },
+        BlockCallNode: {
+          use: true,
+          id: 'BlockCallButton',
+          text: 'Blockaufruf',
+          icon: 'blockCallIcon',
+          color: 'rgb(253, 237, 206)'
+        },
         TaskNode: {
           use: true,
           id: 'TaskButton',
@@ -204,6 +218,13 @@ class Config {
           icon: 'taskIcon',
           color: 'rgb(253, 237, 206)'
         },
+        BlockCallNode: {
+          use: true,
+          id: 'BlockCallButton',
+          text: 'Blockaufruf',
+          icon: 'blockCallIcon',
+          color: 'rgb(253, 237, 206)'
+        },
         TaskNode: {
           use: true,
           id: 'TaskButton',
@@ -283,6 +304,13 @@ class Config {
           id: 'OutputButton',
           text: 'Ausgabe-Feld',
           icon: 'taskIcon',
+          color: 'rgb(253, 237, 206)'
+        },
+        BlockCallNode: {
+          use: true,
+          id: 'BlockCallButton',
+          text: 'Blockaufruf',
+          icon: 'blockCallIcon',
           color: 'rgb(253, 237, 206)'
         },
         TaskNode: {

@@ -33,6 +33,10 @@ export class CodeView {
           pre: 'print(',
           post: ')\n'
         },
+        BlockCallNode: {
+          pre: '',
+          post: '\n'
+        },
         TaskNode: {
           pre: '',
           post: '\n'
@@ -89,6 +93,10 @@ export class CodeView {
           pre: 'print(',
           post: ')\n'
         },
+        BlockCallNode: {
+          pre: '',
+          post: '\n'
+        },
         TaskNode: {
           pre: '',
           post: '\n'
@@ -143,6 +151,10 @@ export class CodeView {
         },
         OutputNode: {
           pre: 'echo ',
+          post: ';\n'
+        },
+        BlockCallNode: {
+          pre: '',
           post: ';\n'
         },
         TaskNode: {
@@ -201,6 +213,10 @@ export class CodeView {
           pre: 'System.out.println(',
           post: ');\n'
         },
+        BlockCallNode: {
+          pre: '',
+          post: ';\n'
+        },
         TaskNode: {
           pre: '',
           post: ';\n'
@@ -256,6 +272,10 @@ export class CodeView {
         OutputNode: {
           pre: 'Console.WriteLine(',
           post: ');\n'
+        },
+        BlockCallNode: {
+          pre: '',
+          post: ';\n'
         },
         TaskNode: {
           pre: '',
@@ -313,6 +333,10 @@ export class CodeView {
           pre: 'std::cout << ',
           post: ';\n'
         },
+        BlockCallNode: {
+          pre: '',
+          post: ';\n'
+        },
         TaskNode: {
           pre: '',
           post: ';\n'
@@ -368,6 +392,10 @@ export class CodeView {
         OutputNode: {
           pre: 'printf(',
           post: ');\n'
+        },
+        BlockCallNode: {
+          pre: '',
+          post: ';\n'
         },
         TaskNode: {
           pre: '',
@@ -591,6 +619,7 @@ export class CodeView {
           case 'InsertNode':
           case 'InputNode':
           case 'OutputNode':
+          case 'BlockCallNode':
           case 'TaskNode':
             return false || this.checkForUntranslatable(subTree.followElement, nodeType)
           case 'BranchNode':
@@ -674,6 +703,19 @@ export class CodeView {
           outputPost.classList.add('keyword')
           outputPost.appendChild(document.createTextNode(this.translationMap[lang].OutputNode.post))
           elemSpan.appendChild(outputPost)
+          return [elemSpan].concat(this.transformToCode(subTree.followElement, indentLevel, lang))
+        }
+        case 'BlockCallNode':
+        {
+          const taskPre = document.createElement('span')
+          taskPre.classList.add('keyword')
+          taskPre.appendChild(document.createTextNode(this.addIndentations(indentLevel) + this.translationMap[lang].BlockCallNode.pre))
+          elemSpan.appendChild(taskPre)
+          elemSpan.appendChild(text)
+          const taskPost = document.createElement('span')
+          taskPost.classList.add('keyword')
+          taskPost.appendChild(document.createTextNode(this.translationMap[lang].BlockCallNode.post))
+          elemSpan.appendChild(taskPost)
           return [elemSpan].concat(this.transformToCode(subTree.followElement, indentLevel, lang))
         }
         case 'TaskNode':
@@ -1030,17 +1072,11 @@ export class CodeView {
         item.setAttribute('data-tooltip', 'Quellcode ausblenden')
       }
       document.getElementById('SourcecodeDisplay').style.display = 'block'
-      if (window.matchMedia('(max-width: 1200px)')) {
-        document.getElementById('editorContent').style.flexBasis = '75%'
-      }
     } else {
       for (const item of fields) {
         item.setAttribute('data-tooltip', 'Quellcode einblenden')
       }
       document.getElementById('SourcecodeDisplay').style.display = 'none'
-      if (window.matchMedia('(max-width: 1200px)')) {
-        document.getElementById('editorContent').style.flexBasis = '100%'
-      }
     }
   }
 }

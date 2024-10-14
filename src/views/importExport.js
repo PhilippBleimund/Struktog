@@ -184,6 +184,35 @@ export class ImportExport {
           )
         }
 
+        case 'BlockCallNode': {
+          const stepSize = this.printHeight * givenStepSize
+          ctx.beginPath()
+          ctx.moveTo(x, y)
+          ctx.lineTo(xmax, y)
+          ctx.moveTo(x, y)
+          ctx.lineTo(x, y + stepSize)
+          ctx.moveTo(xmax, y)
+          ctx.lineTo(xmax, y + stepSize)
+          ctx.stroke()
+
+          ctx.fillStyle = '#fcedce'
+          ctx.rect(x, y, xmax - x, stepSize)
+          ctx.fill()
+
+          ctx.fillStyle = 'black'
+          ctx.beginPath()
+          ctx.fillText('| ' + subTree.text, x + 15, y + defaultMargin)
+          ctx.stroke()
+          return this.renderTreeAsCanvas(
+            subTree.followElement,
+            ctx,
+            x,
+            xmax,
+            y + stepSize,
+            givenStepSize
+          )
+        }
+
         case 'TaskNode': {
           const stepSize = this.printHeight * givenStepSize
           ctx.beginPath()
@@ -662,6 +691,7 @@ export class ImportExport {
 
         case 'InputNode':
         case 'OutputNode':
+        case 'BlockCallNode':
         case 'TaskNode': {
           return 1 + this.preCountTreeDepth(subTree.followElement)
         }
@@ -765,6 +795,7 @@ export class ImportExport {
 
         case 'InputNode':
         case 'OutputNode':
+        case 'BlockCallNode':
         case 'TaskNode': {
           return this.preCountNonOneLiners(subTree.followElement)
         }
@@ -838,6 +869,7 @@ export class ImportExport {
 
         case 'InputNode':
         case 'OutputNode':
+        case 'BlockCallNode':
         case 'TaskNode': {
           return 1 + this.preCountOneLiners(subTree.followElement)
         }
