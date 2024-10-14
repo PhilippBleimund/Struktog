@@ -197,7 +197,6 @@ export function generateFooter () {
   footerSpan.appendChild(document.createTextNode('|'))
   footerSpan.appendChild(hash)
   footerSpan.appendChild(document.createTextNode('|'))
-  footerSpan.appendChild(impressumLink)
 }
 
 export function generateResetButton (presenter, domNode) {
