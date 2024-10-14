@@ -23,7 +23,6 @@
   "license": "SEE LICENSE IN LICENCE",
   "devDependencies": {
     "@babel/core": "^7.25.8",
-    "babel-core": "^6.26.3",
     "babel-loader": "^9.2.1",
     "babel-preset-env": "^1.7.0",
     "chromedriver": "^129.0.4",
