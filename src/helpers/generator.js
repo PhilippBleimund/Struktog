@@ -175,34 +175,20 @@ export function generateFooter () {
     'hand'
   )
   sourceLink.appendChild(document.createTextNode('Source code'))
-  sourceLink.setAttribute('href', 'https://gitlab.com/dev-ddi/cs-school-tools/struktog')
-  sourceLink.setAttribute('data-tooltip', 'Gitlab Repository')
+  sourceLink.setAttribute('href', 'https://github.com/PhilippBleimund/Struktog')
+  sourceLink.setAttribute('data-tooltip', 'GitHub Repository')
   sourceLink.addEventListener('click', () => {
     window.open(
-      'https://gitlab.com/dev-ddi/cs-school-tools/struktog',
+      'https://github.com/PhilippBleimund/Struktog',
       '_blank'
     )
   })
 
   const text = document.createElement('div')
-  text.appendChild(document.createTextNode('Maintainer Thiemo Leonhardt'))
+  text.appendChild(document.createTextNode('Maintainer Philipp Bleimund'))
 
   const hash = document.createElement('div')
-  hash.appendChild(document.createTextNode(__COMMIT_HASH__))
-
-  const impressumLink = document.createElement('div')
-  impressumLink.classList.add(
-    'hand'
-  )
-  impressumLink.appendChild(document.createTextNode('Impressum'))
-  impressumLink.setAttribute('href', 'https://ddi.education/impressum')
-  impressumLink.setAttribute('data-tooltip', 'Impressum')
-  impressumLink.addEventListener('click', () => {
-    window.open(
-      'https://ddi.education/impressum',
-      '_self'
-    )
-  })
+  hash.appendChild(document.createTextNode('Version: ' + __COMMIT_HASH__))
 
   footerDiv.appendChild(footerSpan)
   footerSpan.appendChild(sourceLink)
