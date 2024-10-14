@@ -68,6 +68,52 @@ export class Structogram {
     editorHeadline.appendChild(document.createTextNode('Editor:'))
     divEditorHeadline.appendChild(editorHeadline)
 
+    const inputWidthContainer = document.createElement('div')
+    inputWidthContainer.id = 'inputWidthOptions'
+    inputWidthContainer.classList.add('inputWidthOptions')
+    
+    const currentWidth = document.createElement('span')
+    currentWidth.setAttribute('id', 'current-width')
+    currentWidth.textContent = 'aktuelle Größe: '
+    inputWidthContainer.appendChild(currentWidth)
+
+    const inputField = document.createElement('input');
+    inputField.setAttribute('type', 'number');
+    inputField.setAttribute('id', 'width-input');
+    inputField.setAttribute('min', '300');
+    inputField.setAttribute('max', '2000');
+    inputField.setAttribute('value', document.body.clientWidth);
+    inputField.addEventListener('input', () => {
+      const newWidth = inputField.value
+      
+      if (newWidth >= 300 && newWidth <= 2000) {
+        inputField.style.color = 'black'
+        document.getElementById('editorContent').style.marginLeft = '0px'  
+        document.getElementById('editorContent').style.marginRight = '0px'  
+        document.getElementById('editorContent').style.width = newWidth + 'px'  
+        // adjust margin if the user wants it wider than the body
+        if (newWidth > document.body.clientWidth){
+          let marginLeft = (newWidth - document.body.clientWidth) / 2 
+          let marginRight = (newWidth - document.body.clientWidth) / 2 
+          
+          const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+          if (marginLeft > (vw - document.body.clientWidth) / 2){
+            marginRight = marginRight + (marginLeft - (vw - document.body.clientWidth) / 2)
+            marginLeft = marginLeft - (marginLeft - (vw - document.body.clientWidth) / 2)
+          }
+
+          document.getElementById('editorContent').style.marginLeft = -marginLeft + 'px'  
+          document.getElementById('editorContent').style.marginRight = -marginRight + 'px'  
+        }
+      }else{
+        inputField.style.color = 'red'
+      }
+    })
+    inputWidthContainer.appendChild(inputField)
+
+
+    divEditorHeadline.appendChild(inputWidthContainer)
+
     const optionsContainer1 = document.createElement('div')
     optionsContainer1.id = 'struktoOptions1'
     optionsContainer1.classList.add('struktoOptions1')

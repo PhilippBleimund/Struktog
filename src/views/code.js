@@ -1072,17 +1072,11 @@ export class CodeView {
         item.setAttribute('data-tooltip', 'Quellcode ausblenden')
       }
       document.getElementById('SourcecodeDisplay').style.display = 'block'
-      if (window.matchMedia('(max-width: 1200px)')) {
-        document.getElementById('editorContent').style.flexBasis = '75%'
-      }
     } else {
       for (const item of fields) {
         item.setAttribute('data-tooltip', 'Quellcode einblenden')
       }
       document.getElementById('SourcecodeDisplay').style.display = 'none'
-      if (window.matchMedia('(max-width: 1200px)')) {
-        document.getElementById('editorContent').style.flexBasis = '100%'
-      }
     }
   }
 }
