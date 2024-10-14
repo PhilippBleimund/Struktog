@@ -1,3 +1,12 @@
+v1.3.2
+- bugfixes
+- removed impressum
+
+v1.3.1
+- new structure: Blockcall
+- able to change struktogramm size
+- default to 1200px gui width
+
 v1.3.0
 - refactor Import Export
 - GUI Adjustment
