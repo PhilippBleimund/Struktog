@@ -94,9 +94,10 @@ const config = {
   ],
   devServer: {
     port: 8081,
-    contentBase: './src',
-    watchOptions: {
-      poll: true
+    static: {
+      watch: {
+        ignored: /node_modules/,
+      },
     },
     open: true
   }
