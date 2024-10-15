@@ -860,7 +860,7 @@ export class Structogram {
           divChildren.classList.add('columnAuto', 'branchCenter', 'container')
 
           const divTrue = document.createElement('div')
-          divTrue.classList.add('columnAuto', 'vcontainer', 'ov-hidden')
+          divTrue.classList.add('columnBranchTrue', 'vcontainer', 'ov-hidden')
           for (const elem of this.renderElement(
             subTree.trueChild,
             false,
