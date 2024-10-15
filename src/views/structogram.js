@@ -817,7 +817,7 @@ export class Structogram {
 
           const divHead = document.createElement('div')
           divHead.classList.add(
-            'branchSplit',
+            'branchSplit_75',
             'vcontainer',
             'fixedDoubleHeight'
           )
