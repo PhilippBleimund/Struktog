@@ -637,6 +637,7 @@ export class Presenter {
    * @param   uid   id of the clicked InsertNode in the struktogramm
    */
   appendElement (uid) {
+    console.log('appendet element')
     this.updateUndo()
     // remove old node, when moving is used
     const moveState = this.moveId

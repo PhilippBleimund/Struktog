@@ -614,10 +614,12 @@ export class Structogram {
                   })
                   container.addEventListener('drop', (event) => {
                     event.preventDefault()
+                    console.log(subTree.id)
                     this.presenter.appendElement(subTree.id)
                   })
-                  container.addEventListener('click', () =>
-                    this.presenter.appendElement(subTree.id)
+                  container.addEventListener('click', () =>{
+                    console.log(subTree.id)
+                    this.presenter.appendElement(subTree.id)}
                   )
 
                   if (
