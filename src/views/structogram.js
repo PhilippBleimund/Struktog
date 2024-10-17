@@ -615,6 +615,8 @@ export class Structogram {
                   container.addEventListener('drop', (event) => {
                     event.preventDefault()
                     console.log(subTree.id)
+                    let goalDiv = document.getElementById(subTree.id)
+                    let parentDiv = goalDiv.parentNode
                     this.presenter.appendElement(subTree.id)
                   })
                   container.addEventListener('click', () =>{
@@ -871,6 +873,12 @@ export class Structogram {
             this.applyCodeEventListeners(elem)
             divTrue.appendChild(elem)
           }
+          const callback = (mutationsList) => {
+            console.log(mutationsList)
+          }
+          const observer = new MutationObserver(callback)
+          const config = { attributes: true, subtree: true }
+          observer.observe(divBranchNode, config)
 
           const divFalse = document.createElement('div')
           divFalse.classList.add('columnAuto', 'vcontainer', 'ov-hidden')
