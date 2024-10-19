@@ -180,6 +180,10 @@ $main-background-color: rgba(128,212,255, 0.5);
   flex: 1;
 }
 
+.columnBranchNotEmpty {
+  flex: 0 0 75%;
+}
+
 .columnAuto-6 {
   flex: 6;
 }
