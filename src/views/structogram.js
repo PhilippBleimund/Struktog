@@ -1062,6 +1062,9 @@ export class Structogram {
           divChild.classList.add('columnAuto', 'container', 'loopShift')
 
           // creates the inside of the functionf
+          const verticalLineRight = document.createElement('div');
+          verticalLineRight.classList.add('vertical-line-right-function');
+
           const divFunctionBody = document.createElement('div')
           divFunctionBody.classList.add('functionInner', 'vcontainer')
 
@@ -1073,6 +1076,7 @@ export class Structogram {
             this.applyCodeEventListeners(elem)
             divFunctionBody.appendChild(elem)
           }
+          divFunctionBody.appendChild(verticalLineRight)
           divChild.appendChild(divFunctionBody)
 
           const divFuncFoot = document.createElement('div')

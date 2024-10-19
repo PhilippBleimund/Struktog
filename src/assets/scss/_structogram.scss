@@ -212,6 +212,15 @@ $main-background-color: rgba(128,212,255, 0.5);
   margin-right: calc(2em - 2px); //make on right 2px smaller
 }
 
+.vertical-line-right-function {
+    width: 2px;
+    background-color: #000;
+    height: calc(100% + 3px);
+    position: absolute;
+    right: -2px; //shift to right, so it doesnt get overlayed
+    top: 0;
+}
+
 .headerContainer {
   display: flex;
   flex-wrap: nowrap;
