@@ -542,14 +542,13 @@ export class Structogram {
     })
 
     // add all box header elements
-    functionBoxHeaderDiv.appendChild(document.createTextNode('function'))
     functionBoxHeaderDiv.appendChild(this.createSpacing(2 * spacingSize))
     functionBoxHeaderDiv.appendChild(
       this.createFunctionHeaderTextEl(
         functionBoxHeaderDiv,
         2,
         ffSize,
-        'func name',
+        'STRUKTURBLOCK',
         uid,
         content
       )
@@ -558,7 +557,6 @@ export class Structogram {
     functionBoxHeaderDiv.appendChild(paramDiv)
     functionBoxHeaderDiv.appendChild(document.createTextNode(')'))
     functionBoxHeaderDiv.appendChild(this.createSpacing(spacingSize))
-    functionBoxHeaderDiv.appendChild(document.createTextNode('{'))
     const spacer = document.createElement('div')
     spacer.style.marginRight = 'auto'
     functionBoxHeaderDiv.appendChild(spacer)
@@ -1081,11 +1079,6 @@ export class Structogram {
 
           const divFuncFoot = document.createElement('div')
           divFuncFoot.classList.add('container', 'fixedHeight', 'padding')
-
-          const textNode = document.createElement('div')
-          textNode.classList.add('symbol')
-          textNode.appendChild(document.createTextNode('}'))
-          divFuncFoot.appendChild(textNode)
 
           const vertLine = document.createElement('div')
           vertLine.classList.add('frameLeftBottom')
