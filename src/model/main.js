@@ -295,9 +295,7 @@ class Model {
     if (!(subTree.followElement === null || subTree.followElement.type === 'Placeholder')) {
       // connect children with the element to insert
       element.followElement.followElement = subTree.followElement
-      console.log('added something')
     }
-    console.log('added something')
     // insert the new element
     subTree.followElement = element
 
