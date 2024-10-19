@@ -206,6 +206,12 @@ $main-background-color: rgba(128,212,255, 0.5);
   }
 }
 
+.functionInner {
+  flex-grow: 1;
+  margin-left: 2em;
+  margin-right: calc(2em - 2px); //make on right 2px smaller
+}
+
 .headerContainer {
   display: flex;
   flex-wrap: nowrap;

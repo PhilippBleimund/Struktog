@@ -1063,7 +1063,7 @@ export class Structogram {
 
           // creates the inside of the functionf
           const divFunctionBody = document.createElement('div')
-          divFunctionBody.classList.add('loopWidth', 'frameLeft', 'vcontainer')
+          divFunctionBody.classList.add('functionInner', 'vcontainer')
 
           for (const elem of this.renderElement(
             subTree.child,
@@ -1096,7 +1096,7 @@ export class Structogram {
           )
 
           const vertLine2 = document.createElement('div')
-          vertLine2.classList.add('loopWidth', 'vcontainer')
+          vertLine2.classList.add('functionInner', 'vcontainer')
 
           vertLine2.appendChild(vertLine)
           vertLineContainer.appendChild(vertLine2)
