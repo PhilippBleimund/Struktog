@@ -820,8 +820,17 @@ export class Structogram {
           divBranchNode.classList.add('columnAuto', 'vcontainer')
 
           const divHead = document.createElement('div')
+          // check for placeholder
+          let style = 'branchSplit'
+          if ((subTree.trueChild.followElement !== null || subTree.falseChild.followElement !== null) &&
+             ((subTree.trueChild.followElement.type !== 'Placeholder') && (subTree.falseChild.followElement.type === 'Placeholder'))){
+            style = 'branchSplit_75r'
+          } else if ((subTree.trueChild.followElement !== null || subTree.falseChild.followElement !== null) &&
+                    ((subTree.trueChild.followElement.type === 'Placeholder') && (subTree.falseChild.followElement.type !== 'Placeholder'))){
+            style = 'branchSplit_75l'
+          }
           divHead.classList.add(
-            'branchSplit_75',
+            style,
             'vcontainer',
             'fixedDoubleHeight'
           )
@@ -863,8 +872,18 @@ export class Structogram {
           const divChildren = document.createElement('div')
           divChildren.classList.add('columnAuto', 'branchCenter', 'container')
 
+          // determine column styles
+          let branchTrueStyle = 'columnAuto'
+          let branchFalseStyle = 'columnAuto'
+          if ((subTree.trueChild.followElement !== null || subTree.falseChild.followElement !== null) &&
+             ((subTree.trueChild.followElement.type !== 'Placeholder') && (subTree.falseChild.followElement.type === 'Placeholder'))){
+            branchTrueStyle = 'columnBranchNotEmpty'
+          } else if ((subTree.trueChild.followElement !== null || subTree.falseChild.followElement !== null) &&
+                    ((subTree.trueChild.followElement.type === 'Placeholder') && (subTree.falseChild.followElement.type !== 'Placeholder'))){
+            branchFalseStyle = 'columnBranchNotEmpty'
+          }
           const divTrue = document.createElement('div')
-          divTrue.classList.add('columnBranchTrue', 'vcontainer', 'ov-hidden')
+          divTrue.classList.add(branchTrueStyle, 'vcontainer', 'ov-hidden')
           for (const elem of this.renderElement(
             subTree.trueChild,
             false,
@@ -881,7 +900,7 @@ export class Structogram {
           observer.observe(divBranchNode, config)
 
           const divFalse = document.createElement('div')
-          divFalse.classList.add('columnAuto', 'vcontainer', 'ov-hidden')
+          divFalse.classList.add(branchFalseStyle, 'vcontainer', 'ov-hidden')
           for (const elem of this.renderElement(
             subTree.falseChild,
             false,
