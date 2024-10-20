@@ -542,14 +542,13 @@ export class Structogram {
     })
 
     // add all box header elements
-    functionBoxHeaderDiv.appendChild(document.createTextNode('function'))
     functionBoxHeaderDiv.appendChild(this.createSpacing(2 * spacingSize))
     functionBoxHeaderDiv.appendChild(
       this.createFunctionHeaderTextEl(
         functionBoxHeaderDiv,
         2,
         ffSize,
-        'func name',
+        'STRUKTURBLOCK',
         uid,
         content
       )
@@ -558,7 +557,6 @@ export class Structogram {
     functionBoxHeaderDiv.appendChild(paramDiv)
     functionBoxHeaderDiv.appendChild(document.createTextNode(')'))
     functionBoxHeaderDiv.appendChild(this.createSpacing(spacingSize))
-    functionBoxHeaderDiv.appendChild(document.createTextNode('{'))
     const spacer = document.createElement('div')
     spacer.style.marginRight = 'auto'
     functionBoxHeaderDiv.appendChild(spacer)
@@ -1062,8 +1060,11 @@ export class Structogram {
           divChild.classList.add('columnAuto', 'container', 'loopShift')
 
           // creates the inside of the functionf
+          const verticalLineRight = document.createElement('div');
+          verticalLineRight.classList.add('vertical-line-right-function');
+
           const divFunctionBody = document.createElement('div')
-          divFunctionBody.classList.add('loopWidth', 'frameLeft', 'vcontainer')
+          divFunctionBody.classList.add('functionInner', 'vcontainer')
 
           for (const elem of this.renderElement(
             subTree.child,
@@ -1073,15 +1074,11 @@ export class Structogram {
             this.applyCodeEventListeners(elem)
             divFunctionBody.appendChild(elem)
           }
+          divFunctionBody.appendChild(verticalLineRight)
           divChild.appendChild(divFunctionBody)
 
           const divFuncFoot = document.createElement('div')
           divFuncFoot.classList.add('container', 'fixedHeight', 'padding')
-
-          const textNode = document.createElement('div')
-          textNode.classList.add('symbol')
-          textNode.appendChild(document.createTextNode('}'))
-          divFuncFoot.appendChild(textNode)
 
           const vertLine = document.createElement('div')
           vertLine.classList.add('frameLeftBottom')
@@ -1096,7 +1093,7 @@ export class Structogram {
           )
 
           const vertLine2 = document.createElement('div')
-          vertLine2.classList.add('loopWidth', 'vcontainer')
+          vertLine2.classList.add('functionInner', 'vcontainer')
 
           vertLine2.appendChild(vertLine)
           vertLineContainer.appendChild(vertLine2)
