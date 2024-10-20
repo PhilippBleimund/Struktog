@@ -10,7 +10,7 @@ const Webpack = require('webpack')
 
 // get git info from command line
 const commitHash = require('child_process')
-  .execSync('git describe --tags')
+  .execSync('git describe --tags --long')
   .toString()
   .trim()
 
