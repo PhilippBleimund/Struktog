@@ -292,12 +292,7 @@ class Model {
   insertElement (subTree, hasRealParent, text) {
     const element = this.presenter.getNextInsertElement()
     // check for children
-    if (
-      !(
-        subTree.followElement === null ||
-        subTree.followElement.type === 'Placeholder'
-      )
-    ) {
+    if (!(subTree.followElement === null || subTree.followElement.type === 'Placeholder')) {
       // connect children with the element to insert
       element.followElement.followElement = subTree.followElement
     }
