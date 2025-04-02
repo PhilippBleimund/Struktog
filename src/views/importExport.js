@@ -15,6 +15,8 @@
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import * as htmlToImage from 'html-to-image'
+import domtoimage from 'dom-to-image-more'
+
 export class ImportExport {
   constructor (presenter, domRoot) {
     this.presenter = presenter
@@ -65,8 +67,9 @@ export class ImportExport {
     )
     exportDiv.setAttribute('data-tooltip', 'Bildexport')
     exportDiv.addEventListener('click', () =>
-      this.exportAsPngWithPackage()
-      // this.exportAsPng(this.presenter.getModelTree())
+      //this.exportAsPngWithHtmlToImage()
+      this.exportAsPngWithDomToImage()
+      //this.exportAsPng(this.presenter.getModelTree())
     )
     document.getElementById('optionButtons').appendChild(exportDiv)
 
@@ -952,8 +955,26 @@ export class ImportExport {
   /**
    * Create a PNG file of the current model with htmtToImage and append a button for downloading
    */
-  exportAsPngWithPackage () {
+  exportAsPngWithHtmlToImage () {
     htmlToImage.toPng(document.getElementById('structogram'))
+      .then(function (dataUrl) {
+        const linkElement = document.createElement('a')
+        linkElement.setAttribute('href', dataUrl)
+        // define filename
+        const exportFileDefaultName = 'struktog_' + new Date(Date.now()).toJSON().substring(0, 10) + '.png'
+        linkElement.setAttribute('download', exportFileDefaultName)
+        linkElement.click()
+      })
+      .catch(function (error) {
+        console.error('oops, something went wrong!', error)
+      })
+  }
+
+  /**
+   * Create a PNG file of the current model with htmtToImage and append a button for downloading
+   */
+  exportAsPngWithDomToImage () {
+    domtoimage.toPng(document.getElementById('structogram'))
       .then(function (dataUrl) {
         const linkElement = document.createElement('a')
         linkElement.setAttribute('href', dataUrl)
