@@ -191,6 +191,9 @@ export function generateFooter() {
   const impressum = document.createElement("div");
   impressum.classList.add("hand");
   impressum.appendChild(document.createTextNode("impressum"));
+  impressum.addEventListener("click", () => {
+    window.location.href = "./impressum.html";
+  });
 
   footerDiv.appendChild(footerSpan);
   footerSpan.appendChild(sourceLink);
@@ -199,6 +202,7 @@ export function generateFooter() {
   footerSpan.appendChild(document.createTextNode("|"));
   footerSpan.appendChild(hash);
   footerSpan.appendChild(document.createTextNode("|"));
+  footerSpan.appendChild(impressum);
 }
 
 export function generateResetButton(presenter, domNode) {
