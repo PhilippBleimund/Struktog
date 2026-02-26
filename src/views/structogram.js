@@ -777,13 +777,18 @@ export class Structogram {
         }
         case 'BlockCallNode':{
           const divTaskNode = document.createElement('div')
-          divTaskNode.classList.add('fixedHeight', 'container')
+          divTaskNode.classList.add('fixedHeight', 'container', 'columnAuto')
+
+          const divTaskWrapper = document.createElement('div')
+          divTaskWrapper.classList.add('fixedHeight', 'container')
          
           // Create the vertical line
           const verticalLineLeft = document.createElement('div');
           verticalLineLeft.classList.add('vertical-line-left');
           const verticalLineRight = document.createElement('div');
           verticalLineRight.classList.add('vertical-line-right');
+          divTaskNode.appendChild(verticalLineLeft)
+          divTaskNode.appendChild(verticalLineRight)
 
           const textDiv = this.createTextDiv(
             subTree.type,
@@ -794,10 +799,10 @@ export class Structogram {
           textDiv.style.marginLeft = '2em'
           textDiv.style.marginRight = '2em'
           const optionDiv = this.createOptionDiv(subTree.type, subTree.id)
-          divTaskNode.appendChild(verticalLineLeft)
-          divTaskNode.appendChild(verticalLineRight)
-          divTaskNode.appendChild(textDiv)
-          divTaskNode.appendChild(optionDiv)
+          divTaskWrapper.appendChild(textDiv)
+          divTaskWrapper.appendChild(optionDiv)
+
+          divTaskNode.appendChild(divTaskWrapper)
 
           // container.classList.add('line');
           container.appendChild(divTaskNode)
