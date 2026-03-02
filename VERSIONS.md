@@ -1,18 +1,31 @@
+v1.3.5
+
+- added robots.txt
+
+v1.3.4
+
+- added impressum
+
+v1.3.3
+
 v1.3.2
+
 - bugfixes
 - removed impressum
 
 v1.3.1
+
 - new structure: Blockcall
 - able to change struktogramm size
 - default to 1200px gui width
 
 v1.3.0
+
 - refactor Import Export
 - GUI Adjustment
 - add try-catch element to png-export
 - change Licence to aGPL 3
-- several bugfixes 
+- several bugfixes
 
 v1.2.1
 

@@ -99,7 +99,11 @@ const config = {
       },
     }),
     new CopyPlugin({
-      patterns: [{ from: "*", to: "./build/" }, "./src/assets/examples/"],
+      patterns: [
+        { from: "robots.txt", to: "./" },
+        { from: "*", to: "./build/" },
+        "./src/assets/examples/",
+      ],
       options: {
         concurrency: 100,
       },

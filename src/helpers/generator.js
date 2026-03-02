@@ -182,9 +182,6 @@ export function generateFooter() {
     window.open("https://github.com/PhilippBleimund/Struktog", "_blank");
   });
 
-  const text = document.createElement("div");
-  text.appendChild(document.createTextNode("Maintainer Philipp Bleimund"));
-
   const hash = document.createElement("div");
   hash.appendChild(document.createTextNode("Version: " + __COMMIT_HASH__));
 
@@ -197,8 +194,6 @@ export function generateFooter() {
 
   footerDiv.appendChild(footerSpan);
   footerSpan.appendChild(sourceLink);
-  footerSpan.appendChild(document.createTextNode("|"));
-  footerSpan.appendChild(text);
   footerSpan.appendChild(document.createTextNode("|"));
   footerSpan.appendChild(hash);
   footerSpan.appendChild(document.createTextNode("|"));
