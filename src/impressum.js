@@ -32,8 +32,8 @@ function generateImpressum() {
     `
     <address>
       Philipp Bleimund<br>
-      //<br>
-      Bielefeld<br>
+      Horstkotterheide 35<br>
+      33739 Bielefeld<br>
       Germany
     </address>
   `,
